@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+cd ./admin
+npm run prettier:write
+npm run eslint:fix
