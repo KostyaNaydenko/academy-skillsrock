@@ -1,8 +1,8 @@
 import React from "react";
 import {  Typography, Grid, TextField, FormControlLabel } from "@mui/material";
-import { CheckBoxCheckout } from "./Theming";
+import { CheckBoxCheckout } from "../Theming";
 
-export const PersonalData = () => {
+ const CheckoutUser = () => {
 
     return (
         <>      
@@ -89,3 +89,5 @@ export const PersonalData = () => {
         
     )
 }
+
+export default CheckoutUser

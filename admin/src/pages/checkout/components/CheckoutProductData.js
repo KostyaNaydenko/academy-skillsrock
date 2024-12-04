@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Grid, ListItem, ListItemText } from "@mui/material";
 
-export const ProductData = () => {
+ const ProductData = () => {
     const orderList = 
     [
         {
@@ -40,8 +40,8 @@ export const ProductData = () => {
         <>      
             <Typography variant="h6"
                         gutterBottom>Order summary</Typography>
-            {orderList.map((item)=>(
-                                    <ListItem>
+            {orderList.map((item, index)=>(
+                                    <ListItem key={index}>
                                     <ListItemText
                                       primary={<Typography variant="body1">
                                           {item.product}
@@ -102,3 +102,5 @@ export const ProductData = () => {
         
     )
 }
+
+export default ProductData;

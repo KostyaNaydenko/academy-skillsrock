@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Toolbar, Typography, Step, StepLabel, ThemeProvider, CssBaseline, Button,} from "@mui/material";
+import { Toolbar, Typography, Step, StepLabel, ThemeProvider, CssBaseline, useMediaQuery} from "@mui/material";
 import { ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main, theme } from "./Theming";
-import { PersonalData } from "./CardPage_1";
-import { BankCardData } from "./CardPage_2";
-import { ProductData } from "./CardPage_3";
-import {useMediaQuery} from "@mui/material";
+import CheckoutUser from "./components/СheckoutUser";
+import BankCardData from "./components/CheckoutBankData";
+import ProductData from "./components/CheckoutProductData";
 
  const MainPageComponent = () => {
           const isMg = useMediaQuery(theme.breakpoints.down('md'));
@@ -27,7 +26,7 @@ import {useMediaQuery} from "@mui/material";
 
           const getCheckoutComponent = () => {
             switch (activeStep) {
-              case 0: return <PersonalData key={activeStep} />;
+              case 0: return <CheckoutUser key={activeStep} />;
               case 1: return <BankCardData key={activeStep} />;
               case 2: return <ProductData key={activeStep} />;
               case 3: return <><Typography variant="h5" 
