@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Modal ,AppBar, Box, createTheme, IconButton, Input, styled, Toolbar, Typography, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useDispatch, useSelector } from 'react-redux';
+import { openCartModal, openModal } from './slices/cardsArray.ts';
 
 export const theme = createTheme({
     palette : {
@@ -22,13 +24,6 @@ export const MainDiv = styled('div')`
 
 `;
 
-
-export const InputAddCard = styled(Input)(({theme})=>({
-    margin: '15px',
-    color: theme.palette.primary.contrastText,
-}))
-
-
 export const BoxCard = styled(Box)`
     height: 250px;
     width: auto;
@@ -38,7 +33,11 @@ export const BoxCard = styled(Box)`
     justify-content: center;
 `;
 
-export const StoreAppBar: React.FC<any> = ({onButtonClick})=> {
+export const StoreAppBar: React.FC = ()=> {
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state:any)=>state.arrayCards.isModalOpen);
+    const isOpenCart = useSelector(state => state.arrayCards.isModalCartOpen);
+
     return (
         <>
             < AppBar position="static">
@@ -53,10 +52,16 @@ export const StoreAppBar: React.FC<any> = ({onButtonClick})=> {
                     </Typography>
                     <Button  
                     sx={{margin:'10px'}}
-                onClick={onButtonClick} 
+                onClick={()=>dispatch(openModal(!isModalOpen))} 
                 variant="contained"
                 size='small'
                 children='добавить товар'/>
+                <Button  
+                    sx={{margin:'10px'}}
+                onClick={()=>dispatch(openCartModal())} 
+                variant="contained"
+                size='small'
+                children='корзина'/>
                 </Toolbar>
             </AppBar>
         </>
