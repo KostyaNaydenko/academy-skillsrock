@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Toolbar, Typography, Step, StepLabel, ThemeProvider, CssBaseline, useMediaQuery} from "@mui/material";
-import { ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main, theme } from "./Theming";
-import CheckoutUser from "./components/СheckoutUser";
-import BankCardData from "./components/CheckoutBankData";
-import ProductData from "./components/CheckoutProductData";
+import { Toolbar, Typography, Step, StepLabel, CssBaseline, useMediaQuery} from "@mui/material";
+import { ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main } from "./Theming";
+import theme from "../../styles/theme";
+import CheckoutUser from "./components/СheckoutUser/СheckoutUser";
+import BankCardData from "./components/CheckoutBankData/CheckoutBankData";
+import ProductData from "./components/CheckoutProductData/CheckoutProductData";
 
  const MainPageComponent = () => {
           const isMg = useMediaQuery(theme.breakpoints.down('md'));
@@ -43,7 +44,7 @@ import ProductData from "./components/CheckoutProductData";
           };
 
             return (
-                <ThemeProvider theme={theme}>
+              <>
                   <CssBaseline/>
                 <CheckoutAppBar position="absolute"  
                                 elevation={4}>
@@ -94,7 +95,7 @@ import ProductData from "./components/CheckoutProductData";
                 </Typography>
 
                 </Main>
-                </ThemeProvider>
+                </>
             )
         }
 

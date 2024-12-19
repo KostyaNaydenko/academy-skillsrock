@@ -1,25 +1,5 @@
 import React from "react";
 import {AppBar, Box, Button, Checkbox, Paper, Stepper, styled} from "@mui/material";
-import { createTheme } from "@mui/material";
-
-export const theme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: {
-            main: 'rgb(144, 202, 249)',
-            dark: 'rgb(144, 202, 249)',
-        },
-        secondary: {
-            main: 'rgb(144, 202, 249)',
-        },
-        
-        background: {
-            default: '#121212',
-            secondary: 'rgb(33, 33, 33)',
-            paper: '#424242',
-        }
-    },
-});
 
 export const Main = styled('main')`
   width: 600px;
