@@ -5,15 +5,20 @@ import { ProductCard } from './components/ProductCard.tsx';
 import { useSelector } from 'react-redux';
 import { ProductForm } from './components/ProductAddModal.tsx';
 import { Cart } from './components/CartAddModal.tsx';
+import { useState } from 'react';
+import MyForm from './components/TestForm.tsx';
 
 const ProductStore: React.FC = () => {
 
     const cards = useSelector((state:any)=>state.arrayCards.cards);
+    const [modalValue, setModalValue] = useState(false);
+    const openModal = ()=>setModalValue(true);
+    const closeModal = ()=>setModalValue(false);
 
     return (
     <ThemeProvider theme={theme}>
-    <StoreAppBar/>
-        <ProductForm/>
+    <StoreAppBar onToggleModal = {openModal} onCloseModal={closeModal}/>
+        <ProductForm modalValue={modalValue} onCloseModal = {closeModal}/>
         <Cart/>       
         <Grid container 
               spacing={4} 
