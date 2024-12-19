@@ -1,13 +1,17 @@
 import * as React from 'react';
 import { Modal ,AppBar, Box, createTheme, IconButton, Input, styled, Toolbar, Typography, Button } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { openCartModal, openModal } from './slices/cardsArray.ts';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import CloseIcon from '@mui/icons-material/Close';
 
 export const theme = createTheme({
     palette : {
        primary: {
-        main: '#324494',
+        main: '#1b1b1d',
         contrastText: '#fff',
        },
        secondary: {
@@ -33,35 +37,25 @@ export const BoxCard = styled(Box)`
     justify-content: center;
 `;
 
-export const StoreAppBar: React.FC = ()=> {
-    const dispatch = useDispatch();
-    const isModalOpen = useSelector((state:any)=>state.arrayCards.isModalOpen);
-    const isOpenCart = useSelector(state => state.arrayCards.isModalCartOpen);
+export const StoreAppBar = ({onToggleModal, onCloseModal}) => {
+
 
     return (
         <>
             < AppBar position="static">
                 <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
-                    <IconButton size="large"
-                                edge='start'
-                                aria-label="menu">
-                        <MenuIcon/>        
+                    <IconButton onClick={onToggleModal} >
+                        <PostAddIcon sx= {{color:'#FFF'}}/>    
                     </IconButton>
-                    <Typography>
-                        Store
-                    </Typography>
-                    <Button  
-                    sx={{margin:'10px'}}
-                onClick={()=>dispatch(openModal(!isModalOpen))} 
-                variant="contained"
-                size='small'
-                children='добавить товар'/>
-                <Button  
-                    sx={{margin:'10px'}}
-                onClick={()=>dispatch(openCartModal())} 
-                variant="contained"
-                size='small'
-                children='корзина'/>
+
+                <Typography>
+                    Store
+                </Typography>
+
+                <IconButton onClick={onToggleModal} sx= {{color:'#FFF'}}>
+                    <ShoppingCartIcon />
+                </IconButton >  
+                    
                 </Toolbar>
             </AppBar>
         </>
@@ -76,8 +70,24 @@ export const ModalBox = styled(Box)`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 280px;
-    height: 300px;
+    min-width: 280px;
+    min-height: 300px;
+    box-shadow: 24;
+    border-radius: 15px;
+  
+`;
+
+export const ModalBoxCart = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 1000px;
+    height: auto;
     box-shadow: 24;
     border-radius: 15px;
   
