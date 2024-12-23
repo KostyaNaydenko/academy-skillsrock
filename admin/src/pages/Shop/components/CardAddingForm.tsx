@@ -1,12 +1,11 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Grid, Container, Typography, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { TextField, Button, Grid, Container } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { addCard, closeModal } from '../slices/cardsArray.ts';
+import { addCard, editCard } from '../slices/sliceShopCards.ts';
 
-const MyForm = ({onCloseModal}) => {
+export const CardAddingForm = ({onCloseModal, selectedCard, setSelected}) => {
     const dispatch = useDispatch();
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -24,16 +23,23 @@ const MyForm = ({onCloseModal}) => {
     });
 
     const formik = useFormik({
-        initialValues: {
+        initialValues: !selectedCard? {
             title: '',
             description: '',
             quantity: '',
             price: '',
+            id: Date.now(),
+        } : {
+            title: selectedCard.title,
+            description: selectedCard.description,
+            quantity: selectedCard.quantity,
+            price: selectedCard.price,
+            id: selectedCard.id,    
         },
         validationSchema,
         onSubmit: (values) => {
-            const newCard = { ...values, id: Date.now() };
-            dispatch(addCard(newCard));
+           !selectedCard? dispatch(addCard({ ...values, })): dispatch(editCard({ ...values, }));
+            setSelected(null);
             onCloseModal();
         },
     });
@@ -104,5 +110,3 @@ const MyForm = ({onCloseModal}) => {
         </Container>
     );
 };
-
-export default MyForm;
