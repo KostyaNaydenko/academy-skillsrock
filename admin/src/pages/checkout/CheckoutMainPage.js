@@ -1,46 +1,21 @@
 import { useState } from "react";
-import { Toolbar, Typography, Step, StepLabel, CssBaseline, useMediaQuery} from "@mui/material";
-import { ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main } from "./Theming";
 import theme from "../../styles/theme";
-import CheckoutUser from "./components/СheckoutUser/СheckoutUser";
-import BankCardData from "./components/CheckoutBankData/CheckoutBankData";
-import ProductData from "./components/CheckoutProductData/CheckoutProductData";
+import { useMediaQuery, Typography, Toolbar, Step, StepLabel, CssBaseline } from "@mui/material";
+import { ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main } from "./StyledComponents";
+import { BankCardData, ProductData, UserData } from "./components";
+import { STEPS } from "./constants/constants";
 
- const MainPageComponent = () => {
+const MainPageComponent = () => {
+
           const isMg = useMediaQuery(theme.breakpoints.down('md'));
-
-          const steps = [
-                        'Shipping address', 
-                        'Payment details',
-                        'Review your order',
-                        ]
 
           const [activeStep, setActiveStep] = useState(0);
                           
           const handleNext = () => {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          };
-                          
+          };                        
           const handleBack = () => {
             setActiveStep((prevActiveStep) => prevActiveStep - 1);
-          };
-
-          const getCheckoutComponent = () => {
-            switch (activeStep) {
-              case 0: return <CheckoutUser key={activeStep} />;
-              case 1: return <BankCardData key={activeStep} />;
-              case 2: return <ProductData key={activeStep} />;
-              case 3: return <><Typography variant="h5" 
-                                          gutterBottom>
-                                Thank you for your order.
-                              </Typography>
-                              <Typography variant="subtitle1">
-                                Your order number is #2001539. 
-                                We have emailed your order confirmation, 
-                                and will send you an update when your order has shipped.
-                              </Typography></>
-              default: return null;
-            }
           };
 
             return (
@@ -63,7 +38,7 @@ import ProductData from "./components/CheckoutProductData/CheckoutProductData";
 
                     <CheckoutStepper activeStep={activeStep} 
                                      orientation={isMg?'vertical':'horizontal'}>
-                      {steps.map((label) => (
+                      {STEPS.map((label) => (
                         <Step key={label}>
                           <StepLabel>
                             {label}
@@ -71,7 +46,21 @@ import ProductData from "./components/CheckoutProductData/CheckoutProductData";
                         </Step>))}
                     </CheckoutStepper>
 
-                    {getCheckoutComponent()}
+                      {activeStep === 0 && <UserData key={activeStep} />}
+                      {activeStep === 1 && <BankCardData key={activeStep} />}
+                      {activeStep === 2 && <ProductData key={activeStep} />}
+                      {activeStep === 3 && (
+                                              <>
+                                                <Typography variant="h5" gutterBottom>
+                                                  Thank you for your order.
+                                                </Typography>
+                                                <Typography variant="subtitle1">
+                                                  Your order number is #2001539.
+                                                  We have emailed your order confirmation,
+                                                  and will send you an update when your order has shipped.
+                                                </Typography>
+                                              </>
+                                            )}
 
                     <div style={{display: 'flex', 
                         justifyContent: 'flex-end'}}>

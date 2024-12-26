@@ -1,4 +1,3 @@
-import React from "react";
 import {AppBar, Box, Button, Checkbox, Paper, Stepper, styled} from "@mui/material";
 
 export const Main = styled('main')`

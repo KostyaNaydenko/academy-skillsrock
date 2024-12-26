@@ -1,58 +1,24 @@
-import React from "react";
 import { Typography, Grid, ListItem, ListItemText } from "@mui/material";
+import { ORDER_LIST } from "../../constants/constants";
 
- const ProductData = () => {
-    const orderList = 
-    [
-        {
-            product: 'Product 1',
-            quality: 'A nice thing',
-            price: '$9.99',
-        },
-        {
-            product: 'Product 2',
-            quality: 'Another thing',
-            price: '$3.45',
-        },
-        {
-            product: 'Product 3',
-            quality: 'Something else',
-            price: '$6.51',
-        },
-        {
-            product: 'Product 4',
-            quality: 'Best thing of all',
-            price: '$14.11',
-        },
-        {
-            product: 'Shipping',
-            quality: '',
-            price: 'Free',
-        },
-        {
-            product: 'Total',
-            quality: '',
-            price: '$34.06',
-        },
-    ]
-
-    return (
+export const ProductData = () => 
+      (
         <>      
             <Typography variant="h6"
                         gutterBottom>Order summary</Typography>
-            {orderList.map((item, index)=>(
-                                    <ListItem key={index}>
+            {ORDER_LIST.map((order)=>(
+                                    <ListItem key={order.id}>
                                     <ListItemText
                                       primary={<Typography variant="body1">
-                                          {item.product}
+                                          {order.product}
                                           </Typography>}
                                       secondary={<Typography variant="body2" color="text.secondary">
-                                          {item.quality}
+                                          {order.quality}
                                           </Typography>}/>
-                                    <Typography variant="body2">{item.price}</Typography>
+                                    <Typography variant="body2">{order.price}</Typography>
                                   </ListItem>))}
+
             <Grid container spacing={2}>
-              {/* Shipping details */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" gutterBottom>
                   Shipping
@@ -65,7 +31,6 @@ import { Typography, Grid, ListItem, ListItemText } from "@mui/material";
                 </Typography>
               </Grid>
 
-              {/* Payment details */}
               <Grid item xs={12} sm={6}>
                 <Typography variant="h6" gutterBottom>
                   Payment details
@@ -101,6 +66,3 @@ import { Typography, Grid, ListItem, ListItemText } from "@mui/material";
         </>
         
     )
-}
-
-export default ProductData;
