@@ -1,57 +1,71 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, IconButton } from "@mui/material";
-import { useDispatch } from 'react-redux';
-import { delCard } from '../slices/sliceShopCards.ts';
+import { CardContent, Typography, Grid, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import { CardAddingForm } from './CardAddingForm.tsx';
+import { CartAddingForm } from './CartAddingForm.tsx';
+import { useShopCardHandlers } from '../../../hooks/useShopCardHandlers.js';
+import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../Styled.tsx';
 
+export const ProductCard = ({ cardObject }) => {
 
-export const ProductCard = ({ cardObject, modalAddingToCart, editingMode }) => {
+    const [ 
+            handleDelCard, 
+            handleOpenAddingToCartModal, 
+            handleCloseAddingToCartModal, 
+            handleEditing, 
+            handleCloseEditing, 
+            addingToCartModal, 
+            editingMode 
+        ] = useShopCardHandlers(cardObject.id);
 
-    const dispatch = useDispatch();
     return (
         
         <Grid item sx={{width: '20%', height:'500px'}}>
-        <Card sx={{ padding:'20px', height: '75%', display:'flex', 
-                        flexDirection:'column', 
-                        justifyContent: 'space-between'}}>
-            <CardContent>
-                <Typography variant='h6'>
-                    {cardObject.title}
-                </Typography>
-                <Typography paragraph>
-                    {cardObject.description}
-                </Typography>
-            </CardContent>
-            <div style={{display: 'flex', justifyContent:'space-between', alignItems:'center', flexDirection:'column'}}>
+            <ShopProductCard>
+                <CardContent>
+        
+                    <Typography variant='h6'>
+                        {cardObject.title}
+                    </Typography>
+
+                    <Typography paragraph>
+                        {cardObject.description}
+                    </Typography>
+
+                </CardContent>
+
+            <CardMain>
             
-                <div style={{display:'flex',flexDirection:'column', textAlign:'start', width:'100%',}}>
+                <DataDiv>
                     <Typography sx={{marginBottom: '12px'}}>
                         <strong>количество:</strong>   {cardObject.quantity}
                     </Typography>
                     <Typography variant='subtitle1'>
                         <strong>цена:</strong>   {cardObject.price}$
                     </Typography>
-                </div> 
+                </DataDiv> 
 
-                <div style={{display: 'flex' ,width: '100%', justifyContent: 'space-around', marginTop:'20px'}}>
-                    <IconButton onClick={()=>editingMode(cardObject)} >
+                <CardButtonsDiv>
+                    <IconButton onClick={handleEditing}>
                         <EditNoteIcon />
+                        
                     </IconButton>
 
-                    <IconButton onClick={()=>modalAddingToCart(cardObject)}>
+                    <IconButton onClick={handleOpenAddingToCartModal}>
                         <AddShoppingCartIcon />
                     </IconButton>
-
-                    <IconButton onClick={()=>dispatch(delCard(cardObject.id))} >
+                    <IconButton onClick={handleDelCard} >
                         <DeleteIcon />
                     </IconButton>
-                </div>
 
-            </div>
+                    <CardAddingForm cardID={cardObject.id} open={editingMode} handleClose={handleCloseEditing} />
+                    <CartAddingForm cardID={cardObject.id} open={addingToCartModal} handleClose={handleCloseAddingToCartModal} />
+                </CardButtonsDiv>
 
-        </Card>
+            </CardMain>
+        </ShopProductCard>
         </Grid>
     )
 } 
