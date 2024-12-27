@@ -1,55 +1,57 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { TextField, Button, Grid, Container } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { addCard, editCard } from '../slices/sliceShopCards.ts';
+import { TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCard, editCard, getCard } from '../slices/sliceShopCards.ts';
+import { CloseButton } from './CloseButton.tsx';
 
-export const CardAddingForm = ({onCloseModal, selectedCard, setSelected}) => {
+export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
+
     const dispatch = useDispatch();
+    const card = useSelector(state => getCard(state, cardID));
+
     const validationSchema = Yup.object({
         title: Yup.string()
-            .required('Обязательное поле')
+            .required()
             .min(2, 'Минимум 2 символа'),
         description: Yup.string()
-            .required('Обязательное поле')
+            .required()
             .min(10, 'Минимум 10 символов'),
         quantity: Yup.number()
-            .required('Обязательное поле')
+            .required()
             .min(1, 'Количество должно быть больше нуля'),
         price: Yup.number()
-            .required('Обязательное поле')
+            .required()
             .min(0, 'Цена не может быть отрицательной'),
     });
 
     const formik = useFormik({
-        initialValues: !selectedCard? {
-            title: '',
-            description: '',
-            quantity: '',
-            price: '',
-            id: Date.now(),
-        } : {
-            title: selectedCard.title,
-            description: selectedCard.description,
-            quantity: selectedCard.quantity,
-            price: selectedCard.price,
-            id: selectedCard.id,    
+        initialValues: {
+            title: card?.title || '',
+            description: card?.description || '',
+            quantity: card?.quantity || '',
+            price: card?.price || '',
+            id: card?.id || Date.now(),
         },
         validationSchema,
         onSubmit: (values) => {
-           !selectedCard? dispatch(addCard({ ...values, })): dispatch(editCard({ ...values, }));
-            setSelected(null);
-            onCloseModal();
+           !card? dispatch(addCard({ ...values, id: Date.now(), })) && formik.resetForm() : dispatch(editCard({ ...values, }));
+           handleClose();
         },
     });
 
     return (
-        <Container maxWidth="sm">
+
+        <Dialog open={open} onClose={handleClose}>
+            <CloseButton onClose={handleClose} />
+            <DialogTitle>{card ? 'Редактирование товара' : 'Добавление товара'}</DialogTitle>
+        <DialogContent>
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <TextField
+                            sx={{marginTop:'10px'}}
                             fullWidth
                             id="title"
                             name="title"
@@ -101,12 +103,15 @@ export const CardAddingForm = ({onCloseModal, selectedCard, setSelected}) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-            <Button type="submit" variant="contained" color="primary">
-              сохранить
-            </Button>
-          </Grid>
+                        <DialogActions>
+                            <Button type="submit" variant="contained" color="primary">
+                                сохранить
+                            </Button>
+                        </DialogActions>
+                    </Grid>
                 </Grid>
             </form>
-        </Container>
+         </DialogContent>
+        </Dialog>
     );
 };

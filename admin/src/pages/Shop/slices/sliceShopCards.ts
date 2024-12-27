@@ -16,7 +16,7 @@ const sliceShopCards = createSlice({
             },
 
             delCard: (state,action) => {
-            return state.filter((elem)=>elem.id!==action.payload);
+            return [...state.filter((elem)=>elem.id!==action.payload)];
             },
 
 }});
@@ -24,3 +24,4 @@ const sliceShopCards = createSlice({
 export const { addCard, delCard, editCard } = sliceShopCards.actions;
 export const shopCardsReducer = sliceShopCards.reducer;
 export const getCards = (state) => state.shopCards;
+export const getCard = (state, cardID) => state.shopCards.find( elem => elem.id === cardID );
