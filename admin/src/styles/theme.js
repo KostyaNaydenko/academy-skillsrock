@@ -1,8 +1,8 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+export const theme = createTheme({
   breakpoints: {
-    values: { xs: 320, sm: 632, md: 960, lg: 1280, xl: 1920 },
+    values: { xs: 320, sm: 600, md: 960, lg: 1280, xl: 1920 },
   },
   palette: {
     primary: {
@@ -11,9 +11,18 @@ const theme = createTheme({
     secondary: {
       main: "#dc004e",
     },
-    text: { main: "rgba(0, 0, 0, 0.87)" },
-    background: { mainPaper: "#424242" },
-  },
+    text: { 
+      main: "rgba(0, 0, 0, 0.87)" 
+    },
+    background: { 
+      mainPaper: "#424242" 
+    },
+    checkbox: {
+      hover: 'rgba(244, 143, 177, 0.08)',  
+      checked: 'rgb(244, 143, 177)',
+      },
+    },
+
   typography: {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
 
@@ -43,5 +52,3 @@ const theme = createTheme({
     },
   },
 });
-
-export default theme;

@@ -1,5 +1,5 @@
 import { Typography, Grid, ListItem, ListItemText } from "@mui/material";
-import { ORDER_LIST } from "../../constants/constants";
+import { ORDER_LIST, PRODUCT_DATA_FIELDS, } from "../../constants/constants";
 
 export const ProductData = () => 
       (
@@ -32,34 +32,15 @@ export const ProductData = () =>
               </Grid>
 
               <Grid item xs={12} sm={6}>
-                <Typography variant="h6" gutterBottom>
-                  Payment details
-                </Typography>
+                <Typography variant="h6" gutterBottom>Payment details</Typography>
                 <Grid container>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Card type</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Visa</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Card holder</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Mr John Smith</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Card number</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>xxxx-xxxx-xxxx-1234</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>Expiry date</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="body1" gutterBottom>04/2024</Typography>
-                  </Grid>
+                  {PRODUCT_DATA_FIELDS.map((elem)=>(
+                                                    <>
+                                                      <Grid key={elem} item xs={6}>
+                                                        <Typography variant="body1" gutterBottom>{elem}</Typography>
+                                                      </Grid>
+                                                    </>
+                  ))}
                 </Grid>
               </Grid>
             </Grid>

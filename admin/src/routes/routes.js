@@ -9,9 +9,9 @@ import NotFound from '../pages/NotFound';
 import Permission from '../pages/permissions/Permission';
 import Permissions from '../pages/permissions/Permissions';
 import Users from '../pages/Users';
-import CheckoutMainPageComponent from '../pages/checkout/CheckoutMainPage'
+import { Checkout } from '../pages/checkout/MainPage';
 
-const routes = [
+export const routes = [
   {
     path: '/',
     element: <ProtectedRoute component={Dashboard} />,
@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/checkout',
-    element: <CheckoutMainPageComponent/>
+    element: <Checkout />
   },
   {
     path: '/dashboard/*',
@@ -68,5 +68,3 @@ const routes = [
     element: <NotFound />, // Your component for 404 Not Found
   },
 ];
-
-export default routes;

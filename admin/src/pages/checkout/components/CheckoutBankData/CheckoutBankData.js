@@ -1,5 +1,6 @@
 import { Typography, Grid, TextField, FormControlLabel } from "@mui/material";
 import { CheckBoxCheckout } from "../../StyledComponents";
+import { BANK_DATA_FIELDS } from "../../constants/constants";
 
 export const BankCardData = () => {
 
@@ -11,45 +12,23 @@ export const BankCardData = () => {
             </Typography>
             <Grid container spacing={3}>
 
-            <Grid item xs={12} sm={6}>
-            <TextField  variant="standard"
-                        required
-                        label='Name on card'
-                        fullWidth>
-                </TextField>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-            <TextField  variant="standard"
-                        required
-                        label='Card number'
-                        fullWidth>
-                    
-                </TextField>
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-            <TextField  variant="standard"
-                        required
-                        label='Expiry date'
-                        fullWidth>
-            </TextField>
-
-            </Grid>
-            <Grid item xs={12} sm={6}>
-            <TextField  variant="standard"
-                        required
-                        label='CVV'
-                        fullWidth>
-                    
-                </TextField>
-            </Grid>
+            { BANK_DATA_FIELDS.map(elem =>(
+                <>
+                    <Grid   key={elem}
+                            item xs={12} 
+                            sm={6}>
+                        <TextField  variant="standard"
+                                    required
+                                    label={elem}
+                                    fullWidth>
+                        </TextField>
+                    </Grid>
+                </>
+            ))}
 
             <Grid item xs={12}>
-            <FormControlLabel control={<CheckBoxCheckout/>}
-                              label='Remember credit 
-                                     card details
-                                     for next time'/>
+            <FormControlLabel   control={<CheckBoxCheckout/>}
+                                label='Remember credit card details for next time'/>
             </Grid>
 
             </Grid>

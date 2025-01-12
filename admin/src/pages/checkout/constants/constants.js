@@ -1,4 +1,7 @@
 export const STEPS = ['Shipping address', 'Payment details','Review your order'];
+export const PRODUCT_DATA_FIELDS = [ 'Card type', 'Visa', 'Card holder', 'Mr John Smith', 'Card number', 'xxxx-xxxx-xxxx-1234', 'Expiry date', '04/2024'];
+export const BANK_DATA_FIELDS = ['Name on card','Card number','Expiry date', 'CVV'];
+
 export const ORDER_LIST = 
 [
     {
