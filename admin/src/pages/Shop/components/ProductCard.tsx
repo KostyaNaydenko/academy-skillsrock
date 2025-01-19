@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardContent, Typography, Grid, IconButton } from "@mui/material";
+import { CardContent, Typography, Grid, IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -25,25 +25,39 @@ export const ProductCard = ({ cardObject }) => {
         <Grid item sx={{width: '20%', height:'500px'}}>
             <ShopProductCard>
                 <CardContent>
-        
-                    <Typography variant='h6'>
+                    <Tooltip title={cardObject.title}>
+                    <Typography variant='h6'
+                                overflow = 'hidden'
+                                textOverflow = 'ellipsis'
+                                whiteSpace = 'nowrap'>
                         {cardObject.title}
                     </Typography>
+                    </Tooltip>
 
-                    <Typography paragraph>
+                    <Tooltip title={cardObject.description}>
+                    <Typography paragraph
+                                overflow = 'hidden'
+                                textOverflow = 'ellipsis'
+                                whiteSpace = 'nowrap'>
                         {cardObject.description}
                     </Typography>
-
+                    </Tooltip>
                 </CardContent>
 
             <CardMain>
-            
                 <DataDiv>
-                    <Typography sx={{marginBottom: '12px'}}>
-                        <strong>количество:</strong>   {cardObject.quantity}
+                    <Typography sx={{marginBottom: '12px'}}
+                                overflow = 'hidden'
+                                textOverflow = 'ellipsis'
+                                whiteSpace = 'nowrap'>
+                        <strong>quantity:</strong>   {cardObject.quantity}
                     </Typography>
-                    <Typography variant='subtitle1'>
-                        <strong>цена:</strong>   {cardObject.price}$
+
+                    <Typography variant='subtitle1'
+                                overflow = 'hidden'
+                                textOverflow = 'ellipsis'
+                                whiteSpace = 'nowrap'>
+                        <strong style={{fontSize:'23px'}}>{cardObject.price}$</strong> 
                     </Typography>
                 </DataDiv> 
 
@@ -63,7 +77,6 @@ export const ProductCard = ({ cardObject }) => {
                     <CardAddingForm cardID={cardObject.id} open={editingMode} handleClose={handleCloseEditing} />
                     <CartAddingForm cardID={cardObject.id} open={addingToCartModal} handleClose={handleCloseAddingToCartModal} />
                 </CardButtonsDiv>
-
             </CardMain>
         </ShopProductCard>
         </Grid>

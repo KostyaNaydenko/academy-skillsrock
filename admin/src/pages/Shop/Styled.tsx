@@ -16,10 +16,11 @@ export const BoxCart = styled(Box)`
     justify-content: space-between;
     position: absolute;
     min-width: 500px;
-    min-height: 200px;
+    min-height: 300px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-height: 800px;
     max-width: 1000px;
     box-shadow: 24;
     border-radius: 15px;
