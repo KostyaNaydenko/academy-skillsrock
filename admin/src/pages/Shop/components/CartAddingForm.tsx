@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Grid, DialogContent } from '@mui/material';
@@ -13,10 +13,16 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
     const dispatch = useDispatch();
     const card = useSelector(state => getCard(state, cardID));
 
+    const [totalQuantity, setTotalQuantity] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    
+    const handlePlusTotalQuantity = (quantity) => { setTotalQuantity(totalQuantity+quantity) };
+    const handlePlusTotalPrice = (price) => { setTotalPrice(totalPrice+price) };
+
     const validationSchema = Yup.object({
         quantity: Yup.number()
-            .required('Обязательное поле')
-            .min(1, 'Количество должно быть больше нуля'),
+            .required()
+            .min(1),
     });
 
     const formik = useFormik({
@@ -24,6 +30,8 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
         validationSchema,
         onSubmit: (values) => {
             dispatch(addToCart({...card, quantity: values.quantity}));
+            handlePlusTotalQuantity(values.quantity);
+            handlePlusTotalPrice(card.price);
             handleClose();
         },
     });
@@ -32,7 +40,7 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
 
         <Dialog open={open} onClose={handleClose} >
             <CloseButton onClose={handleClose} />
-            <DialogTitle>Выберите количество</DialogTitle>
+            <DialogTitle>Set quantity</DialogTitle>
             <DialogContent>
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2}>
@@ -42,7 +50,7 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
                                 fullWidth
                                 id="quantity"
                                 name="quantity"
-                                label="Количество"
+                                label="Quantity"
                                 variant="outlined"
                                 type="number"
                                 {...formik.getFieldProps('quantity')}
@@ -53,7 +61,7 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
                         <Grid item xs={12}>
                             <DialogActions>
                                 <Button type="submit" variant="contained" color="primary">
-                                    добавить
+                                    add
                                 </Button>
                             </DialogActions>
                         </Grid>

@@ -14,16 +14,16 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
     const validationSchema = Yup.object({
         title: Yup.string()
             .required()
-            .min(2, 'Минимум 2 символа'),
+            .min(2),
         description: Yup.string()
             .required()
-            .min(10, 'Минимум 10 символов'),
+            .min(10),
         quantity: Yup.number()
             .required()
-            .min(1, 'Количество должно быть больше нуля'),
+            .min(1),
         price: Yup.number()
             .required()
-            .min(0, 'Цена не может быть отрицательной'),
+            .min(0),
     });
 
     const formik = useFormik({
@@ -36,8 +36,8 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
         },
         validationSchema,
         onSubmit: (values) => {
-           !card? dispatch(addCard({ ...values, id: Date.now(), })) && formik.resetForm() : dispatch(editCard({ ...values, }));
-           handleClose();
+            !card? dispatch(addCard({ ...values, id: Date.now(), })) && formik.resetForm() : dispatch(editCard({ ...values, }));
+            handleClose();
         },
     });
 
@@ -45,7 +45,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
 
         <Dialog open={open} onClose={handleClose}>
             <CloseButton onClose={handleClose} />
-            <DialogTitle>{card ? 'Редактирование товара' : 'Добавление товара'}</DialogTitle>
+            <DialogTitle>{card ? 'Editing mode' : 'Adding product mode'}</DialogTitle>
         <DialogContent>
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
@@ -55,7 +55,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                             fullWidth
                             id="title"
                             name="title"
-                            label="Название"
+                            label="Title"
                             variant="outlined"
                             {...formik.getFieldProps('title')}
                             error={formik.touched.title && Boolean(formik.errors.title)}
@@ -67,7 +67,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                             fullWidth
                             id="description"
                             name="description"
-                            label="Описание"
+                            label="Description"
                             variant="outlined"
                             multiline
                             rows={4}
@@ -81,7 +81,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                             fullWidth
                             id="quantity"
                             name="quantity"
-                            label="Количество"
+                            label="Quantity"
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('quantity')}
@@ -94,7 +94,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                             fullWidth
                             id="price"
                             name="price"
-                            label="Цена"
+                            label="Price"
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('price')}
@@ -105,13 +105,13 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                     <Grid item xs={12}>
                         <DialogActions>
                             <Button type="submit" variant="contained" color="primary">
-                                сохранить
+                                save
                             </Button>
                         </DialogActions>
                     </Grid>
                 </Grid>
             </form>
-         </DialogContent>
+        </DialogContent>
         </Dialog>
     );
 };

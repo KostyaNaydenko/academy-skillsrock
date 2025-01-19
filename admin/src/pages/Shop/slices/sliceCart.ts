@@ -6,12 +6,12 @@ export const sliceCart = createSlice({
 
     reducers: {
         addToCart(state, action) {
-            state.push(action.payload);
+            const product = state.find( elem => elem.id === action.payload.id );
+            return product ? [...state.map(elem => {if(elem.id === product.id) return {...product, quantity: elem.quantity + action.payload.quantity} }) ] : [...state, action.payload];
         },   
 
         deleteInCart(state, action) {
-          const card = state.find((elem)=> elem.id==action.payload.id);
-          return [...state.filter(elem=>elem.id!==card.id)];
+            return [...state.filter(product => product.id !== action.payload)];
         },
 
         clearCart() {
