@@ -9,7 +9,7 @@ import NotFound from '../pages/NotFound';
 import Permission from '../pages/permissions/Permission';
 import Permissions from '../pages/permissions/Permissions';
 import Users from '../pages/Users';
-import { Checkout } from '../pages/checkout/MainPage';
+import { Checkout } from '../pages/checkout/Checkout';
 
 export const routes = [
   {

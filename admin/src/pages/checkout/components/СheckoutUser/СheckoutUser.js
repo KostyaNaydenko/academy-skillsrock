@@ -1,5 +1,5 @@
 import { Typography, Grid, TextField, FormControlLabel } from "@mui/material";
-import { CheckBoxCheckout } from "../../StyledComponents";
+import { CheckBoxCheckout } from "../../Checkout.styles";
 
 
 export const UserData = () => {

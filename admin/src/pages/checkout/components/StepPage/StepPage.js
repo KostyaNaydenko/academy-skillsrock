@@ -1,7 +1,7 @@
 import { UserData, BankCardData, ProductData } from "..";
 import { Typography } from "@mui/material";
 
-export const DataPage = ({activeStep}) => {
+export const StepPage = ({activeStep}) => {
     return (
       <>
         {activeStep === 0 && <UserData key={activeStep} />}

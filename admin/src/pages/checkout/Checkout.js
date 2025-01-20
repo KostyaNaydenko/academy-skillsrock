@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
-import { BoxWithButtons, ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main } from './StyledComponents';
+import { BoxWithButtons, ButtonBack, ButtonNext, CheckoutAppBar, CheckoutPaper, CheckoutStepper, Main } from './Checkout.styles';
 import { useTheme ,useMediaQuery, Typography, Toolbar, Step, StepLabel, CssBaseline } from '@mui/material';
 import { STEPS } from './constants/constants';
-import { DataPage } from './components';
+import { StepPage } from './components';
 
 export const Checkout = () => {
   const theme = useTheme();
@@ -40,7 +40,7 @@ export const Checkout = () => {
             ))}
           </CheckoutStepper>
 
-          <DataPage activeStep={activeStep} />
+          <StepPage activeStep={activeStep} />
 
           <BoxWithButtons>
             {activeStep > 0 && activeStep < 3 && <ButtonBack onClick={handleBack}>BACK</ButtonBack>}

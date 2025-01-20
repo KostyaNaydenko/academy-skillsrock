@@ -1,5 +1,5 @@
 import { Typography, Grid, TextField, FormControlLabel } from "@mui/material";
-import { CheckBoxCheckout } from "../../StyledComponents";
+import { CheckBoxCheckout } from "../../Checkout.styles";
 import { BANK_DATA_FIELDS } from "../../constants/constants";
 
 export const BankCardData = () => {
