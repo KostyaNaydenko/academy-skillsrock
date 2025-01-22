@@ -1,14 +1,18 @@
-import React from 'react';
+import React from "react";
 import { CardContent, Typography, Grid, IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { CardAddingForm } from './CardAddingForm.tsx';
-import { CartAddingForm } from './CartAddingForm.tsx';
-import { useShopCardHandlers } from '../../../hooks/useShopCardHandlers.js';
-import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../Styled.tsx';
+import { CartAddingForm, CardAddingForm } from '../../components';
+import {useShopCardHandlers} from '../../../../hooks/useShopCardHandlers';
+import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../../Shop.styles';
+import { Product } from "../../slices";
 
-export const ProductCard = ({ cardObject }) => {
+interface ProductCardProps {
+    cardObject: Product;
+}
+
+export const ProductCard: React.FC<ProductCardProps> = ({ cardObject }) => {
 
     const [ 
             handleDelCard, 

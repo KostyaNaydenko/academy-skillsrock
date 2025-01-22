@@ -1,15 +1,30 @@
-import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, editCard, getCard } from '../slices/sliceShopCards.ts';
-import { CloseButton } from './CloseButton.tsx';
+import { addCard, editCard, getCard } from '../../slices';
+import { CloseButton } from '../CloseButton';
+import React from 'react';
+import { RootState } from '../../../../app/store';
 
-export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
+interface CardAddingFormProps {
+    open: boolean;
+    handleClose: () => void;
+    cardID?: number | null;
+}
+
+interface FormValues {
+    title: string;
+    description: string;
+    quantity: number;
+    price: number;
+    id: string | number;
+}
+
+export const CardAddingForm: React.FC<CardAddingFormProps> = ({  open, handleClose, cardID = null, }) => {
 
     const dispatch = useDispatch();
-    const card = useSelector(state => getCard(state, cardID));
+    const card = useSelector((state: RootState) => getCard(state, cardID as number));
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -25,21 +40,30 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
             .required()
             .min(0),
     });
-
-    const formik = useFormik({
+    
+    const formik = useFormik<FormValues>({
         initialValues: {
             title: card?.title || '',
             description: card?.description || '',
-            quantity: card?.quantity || '',
-            price: card?.price || '',
+            quantity: card?.quantity || 0,
+            price: card?.price || 0,
             id: card?.id || Date.now(),
         },
         validationSchema,
         onSubmit: (values) => {
-            !card? dispatch(addCard({ ...values, id: Date.now(), })) && formik.resetForm() : dispatch(editCard({ ...values, }));
+            !card ? dispatch(addCard({ ...values, id: Date.now(), })) && formik.resetForm() : dispatch(editCard({ ...values, }));
             handleClose();
         },
     });
+
+    const getHelperText = (fieldName: keyof FormValues): string => {
+        const error = formik.errors[fieldName];
+        if (!formik.touched[fieldName]) return '';
+        if (Array.isArray(error)) {
+            return error.join(', ');
+        }
+        return error as string || '';
+    };
 
     return (
 
@@ -54,52 +78,52 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }) => {
                             sx={{marginTop:'10px'}}
                             fullWidth
                             id="title"
-                            name="title"
+                            title="title"
                             label="Title"
                             variant="outlined"
                             {...formik.getFieldProps('title')}
                             error={formik.touched.title && Boolean(formik.errors.title)}
-                            helperText={formik.touched.title && formik.errors.title}
+                            helperText={getHelperText('title')}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
                             fullWidth
                             id="description"
-                            name="description"
+                            title="description"
                             label="Description"
                             variant="outlined"
                             multiline
                             rows={4}
                             {...formik.getFieldProps('description')}
                             error={formik.touched.description && Boolean(formik.errors.description)}
-                            helperText={formik.touched.description && formik.errors.description}
+                            helperText={getHelperText('description')}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
                             id="quantity"
-                            name="quantity"
+                            title="quantity"
                             label="Quantity"
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('quantity')}
                             error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-                            helperText={formik.touched.quantity && formik.errors.quantity}
+                            helperText={getHelperText('quantity')}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
                             id="price"
-                            name="price"
+                            title="price"
                             label="Price"
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('price')}
                             error={formik.touched.price && Boolean(formik.errors.price)}
-                            helperText={formik.touched.price && formik.errors.price}
+                            helperText={getHelperText('price')}
                         />
                     </Grid>
                     <Grid item xs={12}>

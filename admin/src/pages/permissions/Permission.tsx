@@ -3,11 +3,17 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addPermission, fetchPermission, updatePermission } from '../../features/permissions/permissionsThunk';
+import { RootState } from '../../app/store';
 
-export const Permission = ({ permissionId, handleClose }) => {
+interface PermissionProps {
+  permissionId: number;
+  handleClose: () => void;
+}
+
+export const Permission: React.FC<PermissionProps> = ({ permissionId, handleClose }) => {
   const dispatch = useDispatch();
   // Select permission state from Redux store
-  const { permission = {}, status, error } = useSelector(state => state.permission);
+  const { permission = {}, status, error } = useSelector((state: RootState) => state.permission);
 
   // Local state to handle form inputs
   const [formData, setFormData] = useState({

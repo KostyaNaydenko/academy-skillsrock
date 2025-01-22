@@ -1,31 +1,33 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Typography, IconButton, Button, Modal, Checkbox, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Typography, IconButton, Button, Modal, Checkbox, Dialog, DialogTitle, DialogActions } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInCart, clearCart } from "../slices/sliceCart.ts";
-import { getCart } from "../slices/sliceCart.ts";
-import { CloseButton } from "./CloseButton.tsx";
-import { BoxCart, CartPaper } from "../Styled.tsx";
+import { deleteInCart, clearCart, getCart, Product } from "../../slices";
+import { CloseButton } from "../CloseButton";
+import { BoxCart, CartPaper } from "../../Shop.styles";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { RootState } from "../../../../app/store";
 
-export const Cart = ({ isOpen, handleClose }) => {
+interface CartProps {
+    isOpen: boolean;
+    handleClose: () => void;
+}
+
+export const Cart: React.FC<CartProps> = ({ isOpen, handleClose }) => {
     
     const [totalQuantity, setTotalQuantity] = useState(0);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => setOpen(true);
+    const handleCloseClearCartDialog = () => setOpen(false);
+    const handleClearCart = () => { dispatch(clearCart()); handleCloseClearCartDialog()  };
 
-    const cart = useSelector(state => getCart(state));  
+    const cart = useSelector((state: RootState) => getCart(state));  
     const dispatch = useDispatch();
 
     useEffect(() => {
-                setTotalQuantity(cart.reduce((acc, currentValue)=> acc + currentValue.quantity  ,0)); 
-                setTotalPrice(cart.reduce((acc, currentValue)=> acc + currentValue.price*currentValue.quantity, 0));
+                setTotalQuantity(cart.reduce((acc: number, cardObject: Product)=> acc + cardObject.quantity, 0)); 
+                setTotalPrice(cart.reduce((acc: number, cardObject: Product)=> acc + cardObject.price*cardObject.quantity, 0));
                 },[cart]);
-    
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    const handleCloseClearCartDialog = () => setOpen(false);
-    const handleClearCart = () => {dispatch(clearCart()); handleCloseClearCartDialog()};
 
     return (
         <Modal open={isOpen}>
@@ -34,7 +36,7 @@ export const Cart = ({ isOpen, handleClose }) => {
                 { cart.length>0 ?     
                     <>
                         <Typography variant="h6" sx={{marginBottom: '20px'}}> Cart </Typography>
-                            { cart.map((elem)=>(
+                            { cart.map((elem: Product)=>(
                                 <CartPaper sx={{height:'300px'}} >
                                     <Checkbox />
                                     <Typography variant='body1' fontWeight='bold' children={elem.title}/>

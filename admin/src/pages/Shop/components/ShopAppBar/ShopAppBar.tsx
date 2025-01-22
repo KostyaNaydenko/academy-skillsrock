@@ -1,15 +1,12 @@
-import React, { useState } from "react";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import { useShopAppBarHandlers } from "../../../hooks/useShopAppBarHandlers.js";
-import { CardAddingForm } from "./CardAddingForm.tsx";
-import { Cart } from "./Cart.tsx";
-import { Search } from "./ Search.tsx";
-
+import { AppBar, IconButton, Toolbar, Typography, useTheme } from "@mui/material";
+import { useShopAppBarHandlers } from "../../../../hooks/useShopAppBarHandlers";
+import { CardAddingForm, Cart } from '../../components';
 
 export const ShopAppBar = () => {
 
+    const theme = useTheme();
     const [
             handleOpenCardModal,
             handleCloseCardModal,
@@ -24,12 +21,12 @@ export const ShopAppBar = () => {
                 <Toolbar sx={{display:'flex', justifyContent:'space-between'}}>
 
                     <IconButton onClick={handleOpenCardModal} >
-                        <PostAddIcon sx= {{color:'#FFF'}}/>
+                        <PostAddIcon sx={{color: theme.palette.secondary.contrastText}}/>
                     </IconButton>
 
-                <Typography>Shop</Typography>
+                <Typography fontWeight={430} >Shop</Typography>
 
-                <IconButton onClick={handleOpenCart} sx= {{color:'#FFF'}}>
+                <IconButton onClick={handleOpenCart} sx={{color: theme.palette.secondary.contrastText}}>
                     <ShoppingCartIcon />
                 </IconButton >
 

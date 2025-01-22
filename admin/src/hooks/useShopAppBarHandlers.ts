@@ -15,6 +15,13 @@ return  [
             handleOpenCart, 
             handleCloseCart, 
             modalCardValue, 
-            cartValue
-        ]
+            cartValue 
+        ] as [
+            () => void,
+            () => void,
+            () => void,
+            () => void,
+            boolean,
+            boolean
+        ];
 }
