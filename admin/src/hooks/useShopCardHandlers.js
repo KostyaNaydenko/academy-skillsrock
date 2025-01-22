@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import { delCard } from "../pages/Shop/slices/sliceShopCards.ts";
+import { delCard } from "../pages/Shop/slices";
 
 export const useShopCardHandlers = (cardID) => {
     

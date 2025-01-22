@@ -7,8 +7,8 @@ import permissionReducer from '../features/permissions/permissionSlice';
 import permissionsReducer from '../features/permissions/permissionsSlice';
 import userReducer from '../features/users/userSlice';
 import usersReducer from '../features/users/usersSlice';
-import { shopCardsReducer } from '../pages/Shop/slices/sliceShopCards.ts';
-import { shopCartReducer } from '../pages/Shop/slices/sliceCart.ts';
+import { shopCardsReducer } from '../pages/Shop/slices';
+import { shopCartReducer } from '../pages/Shop/slices';
 
 export const rootReducer = combineReducers({
   shopCards: shopCardsReducer,

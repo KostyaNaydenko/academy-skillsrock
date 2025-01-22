@@ -1,23 +1,22 @@
+import * as Yup from 'yup';
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { TextField, Button, Grid, DialogContent } from '@mui/material';
+import { TextField, Button, Grid, DialogContent, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../slices/sliceCart.ts';
-import {Dialog, DialogTitle, DialogActions} from '@mui/material';
-import { CloseButton } from './CloseButton.tsx';
-import { getCard } from '../slices/sliceShopCards.ts';
+import { CloseButton } from '../CloseButton';
+import { getCard, addToCart } from '../../slices';
 
 
-export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
+interface CartProps {
+    cardID: number | null;
+    open: boolean;
+    handleClose: () => void;
+}
+
+export const CartAddingForm: React.FC<CartProps> = ({ cardID = null, open, handleClose }) => {
+
     const dispatch = useDispatch();
-    const card = useSelector(state => getCard(state, cardID));
-
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
-    
-    const handlePlusTotalQuantity = (quantity) => { setTotalQuantity(totalQuantity+quantity) };
-    const handlePlusTotalPrice = (price) => { setTotalPrice(totalPrice+price) };
+    const card = useSelector(state => getCard(state, cardID as number));
 
     const validationSchema = Yup.object({
         quantity: Yup.number()
@@ -30,8 +29,6 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
         validationSchema,
         onSubmit: (values) => {
             dispatch(addToCart({...card, quantity: values.quantity}));
-            handlePlusTotalQuantity(values.quantity);
-            handlePlusTotalPrice(card.price);
             handleClose();
         },
     });
@@ -49,7 +46,7 @@ export const CartAddingForm = ({ cardID = null, open, handleClose }) => {
                                 sx={{margin:'10px'}}
                                 fullWidth
                                 id="quantity"
-                                name="quantity"
+                                title="quantity"
                                 label="Quantity"
                                 variant="outlined"
                                 type="number"
