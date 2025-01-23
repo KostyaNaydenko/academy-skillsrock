@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { login } from '../../features/auth/authThunk';
 
-const Login = () => {
+export const Login = () => {
   // const [credentials, setCredentials] = useState({ username: '', password: '' });
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -161,5 +161,3 @@ const Login = () => {
     </SignInContainer>
   );
 };
-
-export default Login;

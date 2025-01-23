@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 
-import DashboardLayout from '../components/DashboardLayout';
+import { DashboardLayout } from '../components/DashboardLayout';
 
-const Dashboard = () => {
+export const Dashboard = () => {
   return (
     <div>
       <h1>Admin Dashboard</h1>
@@ -12,5 +12,3 @@ const Dashboard = () => {
     </div>
   );
 };
-
-export default Dashboard;

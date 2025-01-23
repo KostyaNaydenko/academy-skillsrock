@@ -4,16 +4,17 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { fetchCourses } from '../../features/courses/coursesThunk';
+import { fetchUsers } from '../features/users/usersThunk';
 
-import './Courses.scss';
-const Courses = () => {
+export const Users = () => {
   const dispatch = useDispatch();
-  const { courses = [], status } = useSelector(state => state.courses);
+  const { users = [], status } = useSelector(state => state.users);
 
   const columns = [
-    { field: 'title', headerName: 'Title', width: 130 },
-    { field: 'description', headerName: 'Description', width: 250 },
+    { field: 'first_name', headerName: 'First Name', width: 130 },
+    { field: 'last_name', headerName: 'Last Name', width: 250 },
+    { field: 'role', headerName: 'Role', width: 250 },
+    { field: 'username', headerName: 'Username', width: 250 },
     { field: 'modules', headerName: 'Modules', width: 150 },
     { field: 'instructor', headerName: 'Instructor', width: 150 },
     { field: 'students', headerName: 'students', width: 150 },
@@ -21,38 +22,42 @@ const Courses = () => {
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchCourses());
+      dispatch(fetchUsers());
     }
   }, [status, dispatch]);
 
   const navigate = useNavigate();
 
-  const createUpdateCourse = courseId => {
-    let path = '/dashboard/add-course';
-    if (courseId) path = `/dashboard/update-course/${courseId}`;
+  const createUpdateUser = userId => {
+    let path = '/dashboard/add-user';
+    if (userId) path = `/dashboard/update-user/${userId}`;
     navigate(path);
   };
 
   const paginationModel = { page: 0, pageSize: 5 };
 
+  const getRowId = row => {
+    return row._id;
+  };
   return (
     <div>
-      <div className="coursesTitle">
-        <h1>Courses List</h1>
+      <div className="usersTitle">
+        <h1>Users List</h1>
         <Button
           onClick={() => {
-            createUpdateCourse();
+            createUpdateUser();
           }}
           variant="contained"
         >
-          Create New Course
+          Create New User
         </Button>
       </div>
 
       <Paper sx={{ height: 400, width: '100%' }}>
         <DataGrid
-          rows={courses}
+          rows={users}
           columns={columns}
+          getRowId={getRowId}
           initialState={{ pagination: { paginationModel } }}
           pageSizeOptions={[5, 10]}
           checkboxSelection
@@ -62,5 +67,3 @@ const Courses = () => {
     </div>
   );
 };
-
-export default Courses;

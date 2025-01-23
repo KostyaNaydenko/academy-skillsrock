@@ -1,16 +1,16 @@
 // routes.js
-import ProtectedRoute from './ProtectedRoute';
-import Login from '../pages/Auth/Login';
-import Course from '../pages/courses/Course';
-import Courses from '../pages/courses/Courses';
-import Dashboard from '../pages/Dashboard';
-import Modules from '../pages/Modules';
-import NotFound from '../pages/NotFound';
-import Permission from '../pages/permissions/Permission';
-import Permissions from '../pages/permissions/Permissions';
-import Users from '../pages/Users';
+import { ProtectedRoute } from './ProtectedRoute';
+import { Login } from '../pages/Auth/Login';
+import { Course } from '../pages/courses/Course';
+import { Courses } from '../pages/courses/Courses';
+import { Dashboard } from '../pages/Dashboard';
+import { Modules } from '../pages/Modules';
+import { NotFound } from '../pages/NotFound';
+import { Permission } from '../pages/permissions/Permission';
+import { Permissions } from '../pages/permissions/Permissions';
+import { Users } from '../pages/Users';
 
-const routes = [
+export const routes = [
   {
     path: '/',
     element: <ProtectedRoute component={Dashboard} />,
@@ -62,5 +62,3 @@ const routes = [
     element: <NotFound />, // Your component for 404 Not Found
   },
 ];
-
-export default routes;

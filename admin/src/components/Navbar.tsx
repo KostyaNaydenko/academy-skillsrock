@@ -1,19 +1,22 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import { Toolbar, Typography, Button } from '@mui/material';
-import MuiAppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 
 import { logout } from '../features/auth/authSlice';
 import { toggleSidebar } from '../features/dashboard/dashboardSlice';
+import { RootState } from '../app/store';
 
-const Navbar = () => {
+export const Navbar = () => {
   const drawerWidth = 240;
 
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: prop => prop !== 'open',
-  })(({ theme }) => ({
+  interface AppBarProps extends MuiAppBarProps {
+    open?: boolean;
+  }
+  
+  const AppBar = styled(MuiAppBar)<AppBarProps>(({ theme, open }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -34,10 +37,11 @@ const Navbar = () => {
     ],
   }));
 
-  const { sidebarOpen } = useSelector(state => state.dashboard);
+  const { sidebarOpen } = useSelector((state: RootState) => state.dashboard);
   const dispatch = useDispatch();
+  
 
-  const handleLogout = e => {
+  const handleLogout = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(logout());
   };
@@ -72,5 +76,3 @@ const Navbar = () => {
     </AppBar>
   );
 };
-
-export default Navbar;

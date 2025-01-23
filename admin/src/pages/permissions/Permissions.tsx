@@ -9,13 +9,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import Permission from './Permission';
+import { Permission } from './Permission';
 import { resetState } from '../../features/permissions/permissionSlice';
 import { addOrUpdatePermission } from '../../features/permissions/permissionsSlice';
 import { fetchPermissions } from '../../features/permissions/permissionsThunk';
 import './Permissions.scss';
 
-const Permissions = () => {
+export const Permissions = () => {
   const dispatch = useDispatch();
   const {
     permissions = [],
@@ -145,5 +145,3 @@ const Permissions = () => {
     </Paper>
   );
 };
-
-export default Permissions;

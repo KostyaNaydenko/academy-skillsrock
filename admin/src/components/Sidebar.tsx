@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { toggleSidebar } from '../features/dashboard/dashboardSlice';
 
-const Sidebar = () => {
+export const Sidebar = () => {
   const navigation_list = [
     {
       segment: '/dashboard/users',
@@ -165,5 +165,3 @@ const Sidebar = () => {
     </Drawer>
   );
 };
-
-export default Sidebar;

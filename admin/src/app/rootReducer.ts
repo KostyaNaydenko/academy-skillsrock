@@ -8,7 +8,7 @@ import permissionsReducer from '../features/permissions/permissionsSlice';
 import userReducer from '../features/users/userSlice';
 import usersReducer from '../features/users/usersSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   auth: authReducer,
   dashboard: dashboardReducer,
   courses: coursesReducer,
@@ -17,5 +17,3 @@ const rootReducer = combineReducers({
   users: usersReducer,
   user: userReducer,
 });
-
-export default rootReducer;

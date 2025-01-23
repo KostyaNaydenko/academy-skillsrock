@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addPermission, fetchPermission, updatePermission } from '../../features/permissions/permissionsThunk';
 
-const Permission = ({ permissionId, handleClose }) => {
+export const Permission = ({ permissionId, handleClose }) => {
   const dispatch = useDispatch();
   // Select permission state from Redux store
   const { permission = {}, status, error } = useSelector(state => state.permission);
@@ -82,5 +82,3 @@ const Permission = ({ permissionId, handleClose }) => {
     </form>
   );
 };
-
-export default Permission;

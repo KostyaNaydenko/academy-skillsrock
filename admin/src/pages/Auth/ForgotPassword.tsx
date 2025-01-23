@@ -8,7 +8,12 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
-function ForgotPassword({ open, handleClose }) {
+interface ForgotPasswordProps {
+  open: boolean;
+  handleClose: () => void;
+}
+
+export const ForgotPassword: React.FC<ForgotPasswordProps> = ({ open, handleClose }) => {
   return (
     <Dialog
       open={open}
@@ -52,5 +57,3 @@ ForgotPassword.propTypes = {
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
-
-export default ForgotPassword;
