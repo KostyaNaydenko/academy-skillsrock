@@ -3,7 +3,7 @@ import axios from 'axios';
 import { store } from '../app/store';
 import { logout } from '../features/auth/authSlice';
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
@@ -34,4 +34,3 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-export default apiClient;

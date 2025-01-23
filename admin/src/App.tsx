@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { checkAuth } from './features/auth/authThunk';
-import AppRoutes from './routes/AppRoutes';
-import theme from './styles/theme';
+import { AppRoutes } from './routes/AppRoutes';
+import { theme } from './styles/theme';
 
 const App = () => {
   const dispatch = useDispatch();

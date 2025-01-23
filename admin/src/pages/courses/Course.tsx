@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { addCourse } from '../../features/courses/coursesThunk';
 
-const Course = () => {
+export const Course = () => {
   const dispatch = useDispatch();
 
   const [courseData, setCourseData] = useState({
@@ -88,5 +88,3 @@ const Course = () => {
     </Paper>
   );
 };
-
-export default Course;
