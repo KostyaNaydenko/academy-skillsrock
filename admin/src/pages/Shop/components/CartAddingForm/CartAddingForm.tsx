@@ -1,22 +1,22 @@
 import * as Yup from 'yup';
-import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { TextField, Button, Grid, DialogContent, Dialog, DialogTitle, DialogActions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { CloseButton } from '../CloseButton';
-import { getCard, addToCart } from '../../slices';
+import { getCard, addToCart } from '../../../../features/shop';
+import { AppState } from '../../../../app/store';
+import { BoxButtons } from '../../Shop.styles';
 
 
 interface CartProps {
-    cardID: number | null;
+    cardID: string | null;
     open: boolean;
     handleClose: () => void;
 }
 
-export const CartAddingForm: React.FC<CartProps> = ({ cardID = null, open, handleClose }) => {
+export const CartAddingForm = ({ cardID = null, open, handleClose }: CartProps ) => {
 
     const dispatch = useDispatch();
-    const card = useSelector(state => getCard(state, cardID as number));
+    const card = useSelector((state: AppState) => getCard(state, cardID as string));
 
     const validationSchema = Yup.object({
         quantity: Yup.number()
@@ -36,8 +36,7 @@ export const CartAddingForm: React.FC<CartProps> = ({ cardID = null, open, handl
     return (
 
         <Dialog open={open} onClose={handleClose} >
-            <CloseButton onClose={handleClose} />
-            <DialogTitle>Set quantity</DialogTitle>
+            <DialogTitle sx={{marginTop:'10px'}} >Set quantity</DialogTitle>
             <DialogContent>
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2}>
@@ -57,9 +56,14 @@ export const CartAddingForm: React.FC<CartProps> = ({ cardID = null, open, handl
                         </Grid>
                         <Grid item xs={12}>
                             <DialogActions>
-                                <Button type="submit" variant="contained" color="primary">
-                                    add
-                                </Button>
+                                <BoxButtons >
+                                    <Button variant='contained' color='secondary' onClick={handleClose} >
+                                        close
+                                    </Button>
+                                    <Button type="submit" variant="contained" color="primary">
+                                        add
+                                    </Button>
+                                </BoxButtons>
                             </DialogActions>
                         </Grid>
                     </Grid>

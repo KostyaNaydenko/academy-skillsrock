@@ -1,75 +1,67 @@
-import { useEffect, useState } from "react";
-import { Typography, IconButton, Button, Modal, Checkbox, Dialog, DialogTitle, DialogActions } from "@mui/material";
+import { useState } from "react";
+import { Typography, IconButton, Button, Checkbox, Dialog, DialogTitle, DialogActions, useTheme, DialogContent, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInCart, clearCart, getCart, Product } from "../../slices";
-import { CloseButton } from "../CloseButton";
-import { BoxCart, CartPaper } from "../../Shop.styles";
+import { deleteInCart, clearCart, getCart, Product } from "../../../../features/shop";
+import { CartPaper, CloseButtonDiv } from "../../Shop.styles";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { RootState } from "../../../../app/store";
+import { AppState, getTotalPrice, getTotalQuantity } from "../../../../app/store";
+import CloseIcon from '@mui/icons-material/Close';
+import { RemoveModal } from "../RemoveModal";
 
 interface CartProps {
     isOpen: boolean;
     handleClose: () => void;
 }
 
-export const Cart: React.FC<CartProps> = ({ isOpen, handleClose }) => {
-    
-    const [totalQuantity, setTotalQuantity] = useState(0);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [open, setOpen] = useState(false);
-    const handleClickOpen = () => setOpen(true);
-    const handleCloseClearCartDialog = () => setOpen(false);
-    const handleClearCart = () => { dispatch(clearCart()); handleCloseClearCartDialog()  };
+export const Cart = ({ isOpen, handleClose }: CartProps) => {
 
-    const cart = useSelector((state: RootState) => getCart(state));  
+    const theme = useTheme();
+
     const dispatch = useDispatch();
 
-    useEffect(() => {
-                setTotalQuantity(cart.reduce((acc: number, cardObject: Product)=> acc + cardObject.quantity, 0)); 
-                setTotalPrice(cart.reduce((acc: number, cardObject: Product)=> acc + cardObject.price*cardObject.quantity, 0));
-                },[cart]);
+    const cart = useSelector((state: AppState) => getCart(state));
+    const totalP = useSelector(getTotalPrice);
+    const totalQ = useSelector(getTotalQuantity);
+
+    const [open, setOpen] = useState(false);
+
+    const handleClearCart = () => { dispatch(clearCart()); setOpen(false)  };
 
     return (
-        <Modal open={isOpen}>
-            <BoxCart sx={{bgcolor: 'background.paper', p:4,}} >
-                <CloseButton onClose={handleClose} />
-                { cart.length>0 ?     
+        <Dialog open={isOpen} onClose={handleClose}>
+            <CloseButtonDiv>
+                <IconButton sx={{margin:'10px'}} onClick={handleClose} >
+                    <CloseIcon />
+                </IconButton>
+            </CloseButtonDiv>
+                <DialogTitle sx={{marginTop: '0'}}>
+                    <Typography variant="h6" sx={{marginBottom: '20px',}}>{ cart.length>0? 'Cart': 'Cart is empty' }</Typography>
+                </DialogTitle>
+            <DialogContent>   
+                { cart.length>0 && cart.map((elem: Product)=>(
+                    <CartPaper sx={{height:'300px'}} >
+                        <Checkbox />
+                        <Typography variant='body1' fontWeight='bold' children={elem.title}/>
+                        <Typography variant="body2" children={elem.quantity+' шт'}/>
+                        <Typography variant="body2" children={elem.price+'$'}/>
+                        <IconButton sx={{color: 'red'}} onClick={()=>{dispatch(deleteInCart(elem.id))}}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </CartPaper>
+                ))}
+                {cart.length>0 && 
                     <>
-                        <Typography variant="h6" sx={{marginBottom: '20px'}}> Cart </Typography>
-                            { cart.map((elem: Product)=>(
-                                <CartPaper sx={{height:'300px'}} >
-                                    <Checkbox />
-                                    <Typography variant='body1' fontWeight='bold' children={elem.title}/>
-                                    <Typography variant="body2" children={elem.quantity+' шт'}/>
-                                    <Typography variant="body2" children={elem.price+'$'}/>
-                                    <IconButton sx={{color: 'red'}} onClick={()=>{dispatch(deleteInCart(elem.id))}}>
-                                        <DeleteIcon/>
-                                    </IconButton>
-                                </CartPaper>
-                            ))}
-                        <Typography fontSize={20} marginLeft={2} >Total quantity:{` ${totalQuantity}`}</Typography>
-                        <Typography fontSize={20} marginLeft={2} >Total price: <strong>{` ${totalPrice}$`}</strong></Typography>
-                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                            <Button onClick={handleClickOpen} size="small" children='clear' sx={{margin: '10px'}} />
-                            <Button children='pay' variant="contained" size="small" sx={{margin: '10px'}} />
-                        </div>
-                        <Dialog
-                            open={open}
-                            onClose={handleCloseClearCartDialog}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description">
-                            <DialogTitle id="alert-dialog-title">
-                            {"Empty your cart?"}
-                            </DialogTitle>
-                            <DialogActions>
-                            <Button onClick={handleCloseClearCartDialog}>No</Button>
-                            <Button onClick={handleClearCart} autoFocus>
-                                Yes
-                            </Button>
-                            </DialogActions>
-                        </Dialog>
-                    </>
-                    : <Typography variant="h6" >cart is empty</Typography>}
-            </BoxCart>
-        </Modal>
+                        <Typography fontSize={20} marginLeft={2} >Total quantity:{` ${totalQ}`}</Typography>
+                        <Typography fontSize={20} marginLeft={2} >Total price: <strong>{` ${totalP}$`}</strong></Typography>
+                    </>}
+                <DialogActions>
+                    {cart.length>0 && 
+                        <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <Button children='clear' onClick={()=>setOpen(true)} size="small" color="primary" sx={{margin: '10px'}} />
+                            <Button children='pay' variant="contained" color="success" size="small" sx={{margin: '10px', color: theme.palette.secondary.contrastText}} />
+                        </Box>}
+                </DialogActions>
+                    <RemoveModal open={open} onClose={()=>setOpen(false)} title="Empty your cart?" actions={handleClearCart}  />
+            </DialogContent>
+        </Dialog>
 )}

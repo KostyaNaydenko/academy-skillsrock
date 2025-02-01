@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../../../app/store";
+import { AppState } from "../../../app/store";
+import { nanoid } from "nanoid";
 
 export interface Product {
-        id: number;
+        id: string;
         title: string;
         description: string;
         quantity: number;
@@ -16,140 +17,140 @@ export interface Product {
     const initialState: state = {
         items: [
                 {
-                    id: 1,
+                    id: nanoid(),
                     title: 'Apple iPhone 14 Pro',
                     description: 'Flagship smartphone with advanced camera system.',
                     quantity: 50,
                     price: 1199,
                 },
                 {
-                    id: 2,
+                    id: nanoid(),
                     title: 'Samsung Galaxy S23 Ultra',
                     description: 'Premium Android phone with powerful performance.',
                     quantity: 40,
                     price: 1299,
                 },
                 {
-                    id: 3,
+                    id: nanoid(),
                     title: 'OpenAI Pixel 7 Pro',
                     description: 'Smartphone with amazing AI and camera capabilities.',
                     quantity: 35,
                     price: 899,
                 },
                 {
-                    id: 4,
+                    id: nanoid(),
                     title: 'Xiaomi 13 Pro',
                     description: 'Smartphone with very fast charging.',
                     quantity: 40,
                     price: 999,
                 },
                 {
-                    id: 5,
+                    id: nanoid(),
                     title: 'OnePlus 11',
                     description: 'Smartphone with great performance for gaming.',
                     quantity: 30,
                     price: 799,
                 },
                 {
-                    id: 6,
+                    id: nanoid(),
                     title: 'Apple MacBook Pro 14',
                     description: 'Professional laptop with powerful processor and retina display.',
                     quantity: 25,
                     price: 1999,
                 },
                 {
-                    id: 7,
+                    id: nanoid(),
                     title: 'Dell XPS 13',
                     description: 'Compact and lightweight laptop with great screen.',
                     quantity: 30,
                     price: 1399,
                 },
                 {
-                    id: 8,
+                    id: nanoid(),
                     title: 'HP Spectre x360',
                     description: 'Convertible laptop with premium design and features.',
                     quantity: 20,
                     price: 1599,
                 },
                 {
-                    id: 9,
+                    id: nanoid(),
                     title: 'Lenovo ThinkPad X1 Carbon',
                     description: 'Reliable business laptop with excellent keyboard.',
                     quantity: 30,
                     price: 1699,
                 },
                 {
-                    id: 10,
+                    id: nanoid(),
                     title: 'Microsoft Surface Laptop 5',
                     description: 'Lightweight laptop with good design.',
                     quantity: 15,
                     price: 1299,
                 },
                 {
-                    id: 11,
+                    id: nanoid(),
                     title: 'Samsung Galaxy A54',
                     description: 'Mid-range smartphone with great camera.',
                     quantity: 60,
                     price: 499,
                 },
                 {
-                    id: 12,
+                    id: nanoid(),
                     title: 'OpenAI Pixel 7a',
                     description: 'Budget-friendly smartphone with good performance.',
                     quantity: 55,
                     price: 449,
                 },
                 {
-                    id: 13,
+                    id: nanoid(),
                     title: 'Motorola Edge 40 Pro',
                     description: 'Smartphone with fast charging and great screen.',
                     quantity: 45,
                     price: 699,
                 },
                 {
-                    id: 14,
+                    id: nanoid(),
                     title: 'Asus ROG Phone 7',
                     description: 'Powerful gaming smartphone with advanced cooling.',
                     quantity: 20,
                     price: 1099,
                 },
                 {
-                    id: 15,
+                    id: nanoid(),
                     title: 'Nothing Phone (2)',
                     description: 'Smartphone with unique design and good performance.',
                     quantity: 35,
                     price: 649,
                 },
                 {
-                    id: 16,
+                    id: nanoid(),
                     title: 'Lenovo Yoga Slim 7',
                     description: 'Ultra-slim laptop with good performance and battery life.',
                     quantity: 28,
                     price: 1299,
                 },
                 {
-                    id: 17,
+                    id: nanoid(),
                     title: 'Acer Swift 5',
                     description: 'Lightweight and portable laptop with good features.',
                     quantity: 22,
                     price: 1199,
                 },
                 {
-                    id: 18,
+                    id: nanoid(),
                     title: 'LG Gram 17',
                     description: 'Large-screen laptop with lightweight design and good battery life.',
                     quantity: 18,
                     price: 1499,
                 },
                 {
-                    id: 19,
+                    id: nanoid(),
                     title: 'Razer Blade 15',
                     description: 'High-performance gaming laptop with excellent graphics.',
                     quantity: 10,
                     price: 2499,
                 },
                 {
-                    id: 20,
+                    id: nanoid(),
                     title: 'Huawei MateBook X Pro',
                     description: 'Premium laptop with sleek design and high-resolution screen.',
                     quantity: 20,
@@ -163,13 +164,12 @@ const sliceShopCards = createSlice({
     initialState,
     reducers: {
             addCard(state, action) {
-                const editingCardIndex =  state.items.find(elem=>action.payload.id === elem.id);
-                state.items.push(action.payload);
+                state.items.push({...action.payload, id: nanoid()});
             },
 
             editCard(state,action) {
                 const index = state.items.findIndex(card => card.id === action.payload.id);
-                if (index>-1) state.items[index] = action.payload;
+                if (index>-1) state.items[index] = {...action.payload};
             },
 
             delCard(state, action) {
@@ -178,6 +178,6 @@ const sliceShopCards = createSlice({
 }});
 
 export const { addCard, delCard, editCard } = sliceShopCards.actions;
-export const shopCardsReducer = sliceShopCards.reducer;
-export const getCards = (state: RootState) => state.shopCards.items;
-export const getCard = (state: RootState, cardID: number) => state.shopCards.items.find( (elem: Product) => elem.id === cardID );
+export const productsReducer = sliceShopCards.reducer;
+export const getCards = (state: AppState) => state.products.items;
+export const getCard = (state: AppState, cardID: string) => state.products.items.find( (elem: Product) => elem.id === cardID );

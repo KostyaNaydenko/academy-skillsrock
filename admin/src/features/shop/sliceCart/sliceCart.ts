@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Product } from "../sliceShopCards";
-import { RootState } from "../../../../app/store";
+import { AppState } from "../../../app/store";
 
 interface state {
     items: Product[];
@@ -30,5 +30,5 @@ export const sliceCart = createSlice({
 })
 
 export const {addToCart, deleteInCart, clearCart} = sliceCart.actions;
-export const shopCartReducer = sliceCart.reducer;
-export const getCart = ((state: RootState) => state.shopCart.items);
+export const cartReducer = sliceCart.reducer;
+export const getCart = ((state: AppState) => state.cart.items);

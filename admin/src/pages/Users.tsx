@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { fetchUsers } from '../features/users/usersThunk';
+import { AppState } from '../app/store';
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const { users = [], status } = useSelector(state => state.users);
+  const { users = [], status } = useSelector((state: AppState) => state.users);
 
   const columns = [
     { field: 'first_name', headerName: 'First Name', width: 130 },
@@ -28,7 +29,7 @@ export const Users = () => {
 
   const navigate = useNavigate();
 
-  const createUpdateUser = userId => {
+  const createUpdateUser = (userId: number) => {
     let path = '/dashboard/add-user';
     if (userId) path = `/dashboard/update-user/${userId}`;
     navigate(path);

@@ -7,7 +7,7 @@ interface ProductGridProps {
     products: Product[];
 }
 
-export const ProductGrid: React.FC<ProductGridProps> = ({products}) => {
+export const ProductGrid = ({products}: ProductGridProps) => {
 
     return (
         <Grid container spacing={4} wrap='wrap' sx={{ marginLeft:'50px', marginTop:'0px',  width: '90%'}} >

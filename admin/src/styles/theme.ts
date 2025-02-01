@@ -9,5 +9,11 @@ export const theme = createTheme({
       main: '#dc004e',
       contrastText: '#FFF',
     },
+    success: {
+      main: '#00b300',
+    },
+    background: {
+      paper: '#dcdcdc',
+    },
   },
 });

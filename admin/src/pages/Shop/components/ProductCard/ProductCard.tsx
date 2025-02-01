@@ -1,28 +1,23 @@
-import React from "react";
 import { CardContent, Typography, Grid, IconButton, Tooltip } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { CartAddingForm, CardAddingForm } from '../../components';
-import {useShopCardHandlers} from '../../../../hooks/useShopCardHandlers';
 import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../../Shop.styles';
-import { Product } from "../../slices";
+import { delCard, Product } from "../../../../features/shop";
+import { useToggle } from "../../../../hooks/useToggle";
+import { useDispatch } from "react-redux";
 
 interface ProductCardProps {
     cardObject: Product;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ cardObject }) => {
+export const ProductCard = ({ cardObject }: ProductCardProps) => {
 
-    const [ 
-            handleDelCard, 
-            handleOpenAddingToCartModal, 
-            handleCloseAddingToCartModal, 
-            handleEditing, 
-            handleCloseEditing, 
-            addingToCartModal, 
-            editingMode 
-        ] = useShopCardHandlers(cardObject.id);
+    const dispatch = useDispatch();
+
+    const [editingModeValue, setEditingMode] = useToggle();
+    const [addingToCartValue, setAddingToCartValue] = useToggle();
 
     return (
         
@@ -66,20 +61,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ cardObject }) => {
                 </DataDiv> 
 
                 <CardButtonsDiv>
-                    <IconButton onClick={handleEditing}>
+                    <IconButton onClick={setEditingMode as (()=>void)}>
                         <EditNoteIcon />
                         
                     </IconButton>
 
-                    <IconButton onClick={handleOpenAddingToCartModal}>
+                    <IconButton onClick={setAddingToCartValue as (()=>void)}>
                         <AddShoppingCartIcon />
                     </IconButton>
-                    <IconButton onClick={handleDelCard} >
+                    <IconButton onClick={()=>dispatch(delCard(cardObject.id))} >
                         <DeleteIcon />
                     </IconButton>
 
-                    <CardAddingForm cardID={cardObject.id} open={editingMode} handleClose={handleCloseEditing} />
-                    <CartAddingForm cardID={cardObject.id} open={addingToCartModal} handleClose={handleCloseAddingToCartModal} />
+                    <CardAddingForm cardID={cardObject.id} open={editingModeValue as boolean} handleClose={setEditingMode as (()=>void)} />
+                    <CartAddingForm cardID={cardObject.id} open={addingToCartValue as boolean} handleClose={setAddingToCartValue as (()=>void)} />
                 </CardButtonsDiv>
             </CardMain>
         </ShopProductCard>
