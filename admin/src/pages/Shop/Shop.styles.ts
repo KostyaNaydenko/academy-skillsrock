@@ -1,4 +1,5 @@
-import { Box, Paper, Card, OutlinedInput } from "@mui/material";
+import { Height } from "@mui/icons-material";
+import { Box, Paper, Card, OutlinedInput, Toolbar, useMediaQuery, Container } from "@mui/material";
 import {styled} from '@mui/material/styles';
 
 export const BoxCard = styled(Box)({
@@ -10,19 +11,16 @@ export const BoxCard = styled(Box)({
     height: '250px',
 });
 
-export const BoxCart = styled(Box)({
+export const ContainerCart = styled(Container)({
     boxShadow: '24',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     position: 'absolute',
-    minWidth: '500px',
     minHeight: '300px',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    maxHeight: '800px',
-    maxWidth: '1000px',
     borderRadius: '15px',
 });
 
@@ -32,21 +30,26 @@ export const BoxButtons = styled(Box)({
     width:'536px',
 });
 
-export const CartPaper = styled(Paper)({
-    minWidth: '500px',
+export const CartPaper = styled(Paper)(({theme})=>({
+    //minWidth: '500px',
     margin: '10px',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
-});
+    [theme.breakpoints.up('md')]: {
+        width: '700px',
+        height: '350px' // Устанавливаем width
+    },
+}));
 
 export const ShopProductCard = styled(Card)(({theme})=>({
+    backgroundColor: theme.palette.background.paper,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
     padding: '20px',
     height: '75%',
-    backgroundColor: theme.palette.background.paper,
+    minHeight: '350px',
 }));
 
 
@@ -80,11 +83,30 @@ export const CardButtonsDiv = styled('div')({
 
 export const SearchInput = styled(OutlinedInput)(({theme})=>({
     backgroundColor: theme.palette.background.paper,
-    marginTop: '10px', 
+    marginTop: '6px', 
     marginLeft: '80px', 
     marginBottom: '15px', 
     maxHeight: '50px', 
     maxWidth: '300px',
+}));
+
+export const FilterPanelBox = styled(Box)(({theme})=>({
+    backgroundColor: theme.palette.background.paper,
+    padding: 25, 
+    marginTop: 2, 
+    marginBottom: 2,  
+    border:'1px solid', 
+}));
+
+export const ShopToolBar = styled(Toolbar)(({theme})=>({
+    //isMd: useMediaQuery(theme.breakpoints.down('md')),
+
+    backgroundColor: theme.palette.primary.main, 
+    color: theme.palette.secondary.contrastText,
+    display:'flex', 
+    justifyContent:'space-between', 
+    flex: 1,
+    width: 'auto'
 }));
 
 

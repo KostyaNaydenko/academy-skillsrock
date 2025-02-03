@@ -1,4 +1,4 @@
-import { CardContent, Typography, Grid, IconButton, Tooltip } from "@mui/material";
+import { CardContent, Typography, Grid, IconButton, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -14,6 +14,9 @@ interface ProductCardProps {
 
 export const ProductCard = ({ cardObject }: ProductCardProps) => {
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
     const dispatch = useDispatch();
 
     const [editingModeValue, setEditingMode] = useToggle();
@@ -21,7 +24,6 @@ export const ProductCard = ({ cardObject }: ProductCardProps) => {
 
     return (
         
-        <Grid item sx={{width: '20%', height:'500px'}}>
             <ShopProductCard>
                 <CardContent>
                     <Tooltip title={cardObject.title}>
@@ -78,6 +80,5 @@ export const ProductCard = ({ cardObject }: ProductCardProps) => {
                 </CardButtonsDiv>
             </CardMain>
         </ShopProductCard>
-        </Grid>
     )
 } 

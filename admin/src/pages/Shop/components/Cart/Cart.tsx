@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Typography, IconButton, Button, Checkbox, Dialog, DialogTitle, DialogActions, useTheme, DialogContent, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteInCart, clearCart, getCart, Product } from "../../../../features/shop";
-import { CartPaper, CloseButtonDiv } from "../../Shop.styles";
+import { CartPaper, CloseButtonDiv, ContainerCart } from "../../Shop.styles";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { AppState, getTotalPrice, getTotalQuantity } from "../../../../app/store";
 import CloseIcon from '@mui/icons-material/Close';
@@ -28,7 +28,10 @@ export const Cart = ({ isOpen, handleClose }: CartProps) => {
     const handleClearCart = () => { dispatch(clearCart()); setOpen(false)  };
 
     return (
-        <Dialog open={isOpen} onClose={handleClose}>
+        <Dialog sx={{[theme.breakpoints.up('md')]: {
+            minWidth: '850px',
+             // Устанавливаем width
+        },}} open={isOpen} onClose={handleClose}>
             <CloseButtonDiv>
                 <IconButton sx={{margin:'10px'}} onClick={handleClose} >
                     <CloseIcon />
@@ -39,7 +42,7 @@ export const Cart = ({ isOpen, handleClose }: CartProps) => {
                 </DialogTitle>
             <DialogContent>   
                 { cart.length>0 && cart.map((elem: Product)=>(
-                    <CartPaper sx={{height:'300px'}} >
+                    <CartPaper  >
                         <Checkbox />
                         <Typography variant='body1' fontWeight='bold' children={elem.title}/>
                         <Typography variant="body2" children={elem.quantity+' шт'}/>

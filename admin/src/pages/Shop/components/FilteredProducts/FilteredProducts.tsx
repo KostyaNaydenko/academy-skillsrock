@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Grid, Pagination } from "@mui/material";
+import { Box, Button, Container, Grid, Pagination, useTheme } from "@mui/material";
 import { Product } from "../../../../features/shop";
 import { ProductCard } from "../ProductCard";
 import { useSelector } from "react-redux";
@@ -13,6 +13,9 @@ export interface PaginationParams {
 }
 
 export const FilteredProducts = () => {
+
+    const theme = useTheme();
+    //const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -35,10 +38,10 @@ export const FilteredProducts = () => {
         setStockStatus(e.target.value as 'inStock' | 'outOfStock' | undefined);
     };
 
-      const handleResetFilters = () => {
-          setMinPrice(undefined);
-          setMaxPrice(undefined);
-          setStockStatus(undefined);
+    const handleResetFilters = () => {
+        setMinPrice(undefined);
+        setMaxPrice(undefined);
+        setStockStatus(undefined);
     };
 
     const filteredProducts = useSelector(state => getFilteredProducts()(state, searchedProducts, minPrice, maxPrice, stockStatus));
@@ -64,29 +67,32 @@ export const FilteredProducts = () => {
                     placeholder="Search product..."
                     onChange={handleSearch}
                     value={searchTerm} />
-                  <FilterPanel open={open} 
-                   minPrice={minPrice}
-                    maxPrice={maxPrice}
-                    stockStatus={stockStatus}
-                    handleMinPriceChange={handleMinPriceChange}
-                    handleMaxPriceChange={handleMaxPriceChange}
-                    handleStockStatusChange={handleStockStatusChange}
-                    handleResetFilters={handleResetFilters}
-                    />
-                  <Button size="medium" variant="contained" color="primary" onClick={()=>setOpen(!open)} sx={{marginTop:'11px', marginRight: '140px', maxHeight: '40px'}} >
+                <Button size="medium" variant="outlined" color='info' onClick={()=>setOpen(!open)} sx={{marginTop:'11px', marginRight: '140px', maxHeight: '40px',}} >
                     {open ? 'Hide filters' : 'Show filters'}
                 </Button>
             </Box>
-            <Grid container spacing={4} wrap='wrap' sx={{ marginLeft: '50px', width: '90%', zIndex: 1 }}>
-                {paginatedProducts.map((product: Product) => <ProductCard key={product.id} cardObject={product} />)}
-            </Grid>
+            <Box sx={{margin: '40px', display: 'flex', flexDirection:'row'}}>
+            <Grid container spacing={4} wrap='wrap'>
+                    {paginatedProducts.map((product: Product) => <Grid item xs={12} sm={12} md={5.4} lg={2.4}> <ProductCard key={product.id} cardObject={product} /> </Grid>)}
+                
+                </Grid>
+                <FilterPanel open={open} 
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        stockStatus={stockStatus}
+        handleMinPriceChange={handleMinPriceChange}
+        handleMaxPriceChange={handleMaxPriceChange}
+        handleStockStatusChange={handleStockStatusChange}
+        handleResetFilters={handleResetFilters}
+        />
+                </Box>  
+            <Box sx={{display: 'flex', justifyContent: 'center', flexGrow: 1, margin: '20px'}}>
             { filteredProducts.length > 0 && totalPages > 1 && (
                 <Pagination
-                    sx={{ marginLeft: '35px', marginBottom: '35px' }}
                     count={totalPages}
                     page={currentPage}
                     onChange={handlePageChange} />
-            ) }
+            ) } </Box>
         </>
     );
 };
