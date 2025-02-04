@@ -7,16 +7,14 @@ import {
     FormControlLabel,
     Radio,
     Button,
-    Collapse,
     Grid
 } from '@mui/material';
 import { FilterPanelBox } from '../../Shop.styles';
 
 interface FilterPanelProps {
-    open: boolean;
-    minPrice: number | undefined;
-    maxPrice: number | undefined;
-    stockStatus: 'inStock' | 'outOfStock' | undefined;
+    minPrice: number | null;
+    maxPrice: number | null;
+    stockStatus: 'inStock' | 'outOfStock' | null;
     handleMinPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleMaxPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleStockStatusChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +23,6 @@ interface FilterPanelProps {
 }
 
 export const FilterPanel = ({
-    open,
     minPrice,
     maxPrice,
     stockStatus,
@@ -36,8 +33,7 @@ export const FilterPanel = ({
 }: FilterPanelProps) => {
 
     return (
-        <Box sx={{maxWidth:'500px', marginLeft:'83px',position:open?'static':'absolute',}} >
-            <Collapse in={open}>
+        <Box sx={{maxWidth:'500px'}} >
                 <FilterPanelBox>
                     <Typography variant="h6" gutterBottom>
                         Filters
@@ -88,7 +84,6 @@ export const FilterPanel = ({
                         Subtract filters
                     </Button>
                 </FilterPanelBox>
-            </Collapse>
         </Box>
     );
 };

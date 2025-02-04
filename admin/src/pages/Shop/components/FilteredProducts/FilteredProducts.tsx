@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Box, Button, Container, Grid, Pagination, useTheme } from "@mui/material";
+import { Box, Button, Grid, Pagination, useTheme } from "@mui/material";
 import { Product } from "../../../../features/shop";
 import { ProductCard } from "../ProductCard";
-import { useSelector } from "react-redux";
-import { getSearchProducts, getPaginatedProducts, getFilteredProducts } from "../../../../app/store";
-import { SearchInput } from "../../Shop.styles";
+import { selectFilteredAndSortedProducts } from "../../../../features/shop";
+import { ContentBox, PaginationBox, SearchInput } from "../../Shop.styles";
 import { FilterPanel } from "../FilterPanel";
+import { useAppSelector } from "../../../../app/store";
 
 export interface PaginationParams {
     page: number;
@@ -13,86 +13,71 @@ export interface PaginationParams {
 }
 
 export const FilteredProducts = () => {
-
     const theme = useTheme();
-    //const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const [open, setOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-
-    const searchedProducts = useSelector((state) => getSearchProducts()(state,searchTerm));
-    const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
-    const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
-    const [stockStatus, setStockStatus] = useState<'inStock' | 'outOfStock' | undefined>(undefined);
-
-    const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMinPrice(Number(e.target.value) || undefined);
-    };
-
-    const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMaxPrice(Number(e.target.value) || undefined);
-    };
-
+    const [minPrice, setMinPrice] = useState<number | null>(null);
+    const [maxPrice, setMaxPrice] = useState<number | null>(null);
+    const [stockStatus, setStockStatus] = useState<'inStock' | 'outOfStock' | null>(null);
+  
+    const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => { setMinPrice(Number(e.target.value) || null); };
+    const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => { setMaxPrice(Number(e.target.value) || null); };
+  
     const handleStockStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setStockStatus(e.target.value as 'inStock' | 'outOfStock' | undefined);
+      setStockStatus(e.target.value as 'inStock' | 'outOfStock' | null);
     };
-
+  
     const handleResetFilters = () => {
-        setMinPrice(undefined);
-        setMaxPrice(undefined);
-        setStockStatus(undefined);
+      setMinPrice(null);
+      setMaxPrice(null);
+      setStockStatus(null);
     };
-
-    const filteredProducts = useSelector(state => getFilteredProducts()(state, searchedProducts, minPrice, maxPrice, stockStatus));
-
-
-
-    const totalPages = Math.ceil(filteredProducts.length/10);
-    const paginatedProducts = useSelector((state) => {
-        const p = getPaginatedProducts()(state, currentPage, filteredProducts)
-        return p
-    });
-
-
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement> ) => setSearchTerm(e.target.value);
-
-    const handlePageChange = (_event: React.ChangeEvent<unknown>, page: number) => setCurrentPage(page);
-
-
-    return (
-        <>
-            <Box sx={{display: 'flex', justifyContent: 'space-between', }}>
-                <SearchInput
-                    placeholder="Search product..."
-                    onChange={handleSearch}
-                    value={searchTerm} />
-                <Button size="medium" variant="outlined" color='info' onClick={()=>setOpen(!open)} sx={{marginTop:'11px', marginRight: '140px', maxHeight: '40px',}} >
-                    {open ? 'Hide filters' : 'Show filters'}
-                </Button>
-            </Box>
-            <Box sx={{margin: '40px', display: 'flex', flexDirection:'row'}}>
-            <Grid container spacing={4} wrap='wrap'>
-                    {paginatedProducts.map((product: Product) => <Grid item xs={12} sm={12} md={5.4} lg={2.4}> <ProductCard key={product.id} cardObject={product} /> </Grid>)}
-                
-                </Grid>
-                <FilterPanel open={open} 
-        minPrice={minPrice}
-        maxPrice={maxPrice}
-        stockStatus={stockStatus}
-        handleMinPriceChange={handleMinPriceChange}
-        handleMaxPriceChange={handleMaxPriceChange}
-        handleStockStatusChange={handleStockStatusChange}
-        handleResetFilters={handleResetFilters}
-        />
-                </Box>  
-            <Box sx={{display: 'flex', justifyContent: 'center', flexGrow: 1, margin: '20px'}}>
-            { filteredProducts.length > 0 && totalPages > 1 && (
-                <Pagination
-                    count={totalPages}
-                    page={currentPage}
-                    onChange={handlePageChange} />
-            ) } </Box>
-        </>
+  
+    const { products: paginatedProducts, totalCount: totalFilteredProducts } = useAppSelector(state =>
+      selectFilteredAndSortedProducts(state, {
+        query: searchTerm,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        stockStatus: stockStatus,
+        page: currentPage,
+        limit: 6,
+      })
     );
-};
+  
+    const totalPages = Math.ceil(totalFilteredProducts / 6);
+  
+    return (
+      <>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', }}>
+          <SearchInput
+            placeholder="Search product..."
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+            value={searchTerm} />
+        </Box>
+        <ContentBox>
+          <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center'}}>
+            {paginatedProducts.map((product: Product) => (
+              <Grid item xs={12} sm={12} md={5.4} lg={3.4} key={product.id}> <ProductCard cardObject={product} /> </Grid>
+            ))}
+          </Grid>
+          <FilterPanel
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            stockStatus={stockStatus}
+            handleMinPriceChange={handleMinPriceChange}
+            handleMaxPriceChange={handleMaxPriceChange}
+            handleStockStatusChange={handleStockStatusChange}
+            handleResetFilters={handleResetFilters}
+          />
+        </ContentBox>
+        <PaginationBox>
+          {totalFilteredProducts > 0 && totalPages > 1 && (
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(e: React.ChangeEvent<unknown>, page: number) => setCurrentPage(page)} />
+          )} </PaginationBox>
+      </>
+    );
+  };

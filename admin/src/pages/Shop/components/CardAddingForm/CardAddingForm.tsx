@@ -4,14 +4,19 @@ import { TextField, Button, Grid, Dialog, DialogTitle, DialogContent, DialogActi
 import { useDispatch, useSelector } from 'react-redux';
 import { addCard, editCard, getCard } from '../../../../features/shop';
 import { AppState } from '../../../../app/store';
-import { getHelperText } from '../../CardAddingForm.utils';
-import { FormValues } from '../../CardAddingForm.utils';
 import { BoxButtons } from '../../Shop.styles';
 
 interface CardAddingFormProps {
     open: boolean;
     handleClose: () => void;
     cardID?: string | null;
+}
+
+interface FormValues {
+    title: string;
+    description: string;
+    quantity: number;
+    price: number;
 }
 
 export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddingFormProps) => {
@@ -65,7 +70,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             variant="outlined"
                             {...formik.getFieldProps('title')}
                             error={formik.touched.title && Boolean(formik.errors.title)}
-                            helperText={getHelperText('title', formik.errors, formik.touched)}
+                            helperText={formik.touched.title && Boolean(formik.errors.title)}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -79,7 +84,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             rows={4}
                             {...formik.getFieldProps('description')}
                             error={formik.touched.description && Boolean(formik.errors.description)}
-                            helperText={getHelperText('description', formik.errors, formik.touched)}
+                            helperText={formik.touched.description && Boolean(formik.errors.description)}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -92,7 +97,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             type="number"
                             {...formik.getFieldProps('quantity')}
                             error={formik.touched.quantity && Boolean(formik.errors.quantity)}
-                            helperText={getHelperText('quantity', formik.errors, formik.touched)}
+                            helperText={formik.touched.quantity && Boolean(formik.errors.quantity)}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -105,7 +110,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             type="number"
                             {...formik.getFieldProps('price')}
                             error={formik.touched.price && Boolean(formik.errors.price)}
-                            helperText={getHelperText('price', formik.errors, formik.touched)}
+                            helperText={formik.touched.price && Boolean(formik.errors.price)}
                         />
                     </Grid>
                     <Grid item xs={12}>

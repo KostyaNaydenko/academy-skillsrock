@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { Product } from "../sliceShopCards";
 import { AppState } from "../../../app/store";
 
@@ -28,6 +28,16 @@ export const sliceCart = createSlice({
 
     }
 })
+
+export const getTotalPrice = createSelector(
+    [(state: AppState) => state.cart.items],
+    (cart: Product[]) => cart.reduce((acc, cardObject) => acc + cardObject.price * cardObject.quantity, 0)
+);
+
+export const getTotalQuantity = createSelector(
+    [(state: AppState) => state.cart.items],
+    (cart: Product[]) => cart.reduce((acc, cardObject) => acc + cardObject.quantity, 0)
+);
 
 export const {addToCart, deleteInCart, clearCart} = sliceCart.actions;
 export const cartReducer = sliceCart.reducer;

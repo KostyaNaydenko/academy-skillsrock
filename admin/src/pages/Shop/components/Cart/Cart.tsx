@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteInCart, clearCart, getCart, Product } from "../../../../features/shop";
 import { CartPaper, CloseButtonDiv, ContainerCart } from "../../Shop.styles";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { AppState, getTotalPrice, getTotalQuantity } from "../../../../app/store";
+import { getTotalPrice, getTotalQuantity } from "../../../../features/shop";
+import { AppState } from "../../../../app/store";
 import CloseIcon from '@mui/icons-material/Close';
 import { RemoveModal } from "../RemoveModal";
 
@@ -28,10 +29,7 @@ export const Cart = ({ isOpen, handleClose }: CartProps) => {
     const handleClearCart = () => { dispatch(clearCart()); setOpen(false)  };
 
     return (
-        <Dialog sx={{[theme.breakpoints.up('md')]: {
-            minWidth: '850px',
-             // Устанавливаем width
-        },}} open={isOpen} onClose={handleClose}>
+        <Dialog open={isOpen} onClose={handleClose}>
             <CloseButtonDiv>
                 <IconButton sx={{margin:'10px'}} onClick={handleClose} >
                     <CloseIcon />
@@ -41,13 +39,13 @@ export const Cart = ({ isOpen, handleClose }: CartProps) => {
                     <Typography variant="h6" sx={{marginBottom: '20px',}}>{ cart.length>0? 'Cart': 'Cart is empty' }</Typography>
                 </DialogTitle>
             <DialogContent>   
-                { cart.length>0 && cart.map((elem: Product)=>(
-                    <CartPaper  >
+                { cart.length>0 && cart.map((product: Product)=>(
+                    <CartPaper key={product.id} >
                         <Checkbox />
-                        <Typography variant='body1' fontWeight='bold' children={elem.title}/>
-                        <Typography variant="body2" children={elem.quantity+' шт'}/>
-                        <Typography variant="body2" children={elem.price+'$'}/>
-                        <IconButton sx={{color: 'red'}} onClick={()=>{dispatch(deleteInCart(elem.id))}}>
+                        <Typography variant='body1' fontWeight='bold' children={product.title}/>
+                        <Typography variant="body2" children={product.quantity+' шт'}/>
+                        <Typography variant="body2" children={product.price+'$'}/>
+                        <IconButton sx={{color: 'red'}} onClick={()=>{dispatch(deleteInCart(product.id))}}>
                             <DeleteIcon/>
                         </IconButton>
                     </CartPaper>

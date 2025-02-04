@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { AppState } from "../../../app/store";
 import { nanoid } from "nanoid";
 
@@ -176,6 +176,63 @@ const sliceShopCards = createSlice({
                 state.items = state.items.filter((elem) => elem.id !== action.payload);
             },
 }});
+
+export const selectFilteredAndSortedProducts = createSelector(
+        [
+            (state)=>state.products.items,
+            (state, params) => params.query,
+            (state, params) => params.minPrice,
+            (state, params) => params.maxPrice,
+            (state, params) => params.stockStatus,
+            (state, params) => params.page,
+            (state, params) => params.limit,
+        ],
+        (
+            products,
+            query,
+            minPrice,
+            maxPrice,
+            stockStatus,
+            page,
+            limit
+        ) => {
+            let filteredProducts = [...products];
+            
+            if (minPrice) {
+            filteredProducts = filteredProducts.filter((product) => product.price >= minPrice);
+            }
+            if (maxPrice) {
+            filteredProducts = filteredProducts.filter((product) => product.price <= maxPrice);
+            }
+            if (stockStatus === 'inStock') {
+                filteredProducts = filteredProducts.filter(product=>product.quantity>0);
+            }
+            if (stockStatus === 'outOfStock') {
+                filteredProducts = filteredProducts.filter(product=>product.quantity==0);
+            }
+            
+            if (query && query.trim() !== '') {
+            const searchTerm = query.toLowerCase();
+            filteredProducts = filteredProducts.filter((product: Product) =>
+                product.title.toLowerCase().includes(searchTerm) ||
+                product.id.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            }
+
+            const totalCount = filteredProducts.length;
+
+        const currentPage = page || 1;
+        const pageSize = limit || 10;
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex); 
+        return {
+            products: paginatedProducts,
+            totalCount: totalCount,
+        };
+        }
+    );
 
 export const { addCard, delCard, editCard } = sliceShopCards.actions;
 export const productsReducer = sliceShopCards.reducer;

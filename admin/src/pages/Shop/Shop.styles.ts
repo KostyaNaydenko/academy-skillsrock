@@ -109,7 +109,18 @@ export const ShopToolBar = styled(Toolbar)(({theme})=>({
     width: 'auto'
 }));
 
+export const PaginationBox = styled(Box)({
+    display: 'flex', 
+    justifyContent: 'center',
+    flexGrow: 1, 
+    margin: '20px'
+});
 
+export const ContentBox = styled(Box)({
+    margin: '40px', 
+    display: 'flex', 
+    flexDirection: 'row',
+});
 
 
 

@@ -4,7 +4,7 @@ import { FilteredProducts, ShopAppBar } from './components';
 export const MainPage = () => {
     const theme = useTheme();
     return (
-    <Box sx={{display: 'flex', flexDirection:'column'}}>
+    <Box >
         <ShopAppBar />
         <FilteredProducts />
     </Box>
