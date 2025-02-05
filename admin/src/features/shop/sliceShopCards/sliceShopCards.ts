@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { AppState } from "../../../app/store";
+import { AppState, useAppSelector } from "../../../app/store";
 import { nanoid } from "nanoid";
 
 export interface Product {
@@ -177,41 +177,41 @@ const sliceShopCards = createSlice({
             },
 }});
 
+const selectProductsState = (state: AppState, params: any ) => ({
+    products: state.products.items,
+    query: params.query,
+    minPrice: params.minPrice,
+    maxPrice: params.maxPrice,
+    stockStatus: params.stockStatus,
+    page: params.page,
+    limit: params.limit,
+    });
+
 export const selectFilteredAndSortedProducts = createSelector(
-        [
-            (state)=>state.products.items,
-            (state, params) => params.query,
-            (state, params) => params.minPrice,
-            (state, params) => params.maxPrice,
-            (state, params) => params.stockStatus,
-            (state, params) => params.page,
-            (state, params) => params.limit,
-        ],
-        (
-            products,
-            query,
-            minPrice,
-            maxPrice,
-            stockStatus,
-            page,
-            limit
-        ) => {
+        [selectProductsState],
+        (productState) => {
+
+            const { products, query, minPrice, maxPrice, stockStatus, page, limit } = productState;
+
             let filteredProducts = [...products];
             
-            if (minPrice) {
-            filteredProducts = filteredProducts.filter((product) => product.price >= minPrice);
-            }
-            if (maxPrice) {
-            filteredProducts = filteredProducts.filter((product) => product.price <= maxPrice);
-            }
-            if (stockStatus === 'inStock') {
-                filteredProducts = filteredProducts.filter(product=>product.quantity>0);
-            }
-            if (stockStatus === 'outOfStock') {
-                filteredProducts = filteredProducts.filter(product=>product.quantity==0);
-            }
+
+            const filters = {
+                minPrice: (product: Product) => minPrice ? product.price >= Number(minPrice) : true,
+                maxPrice: (product: Product) => maxPrice ? product.price <= Number(maxPrice) : true,
+                inStock: (product: Product) => stockStatus === 'inStock' ? product.quantity > 0 : true,
+                outOfStock: (product: Product) => stockStatus === 'outOfStock' ? product.quantity == 0 : true,
+            };
+
+            Object.values(filters).forEach(filterFn => {
+                filteredProducts = filteredProducts.filter(filterFn);
+            });
             
+            let currentPage = page || 1;
+            let memoPage = page || 1;
+
             if (query && query.trim() !== '') {
+            currentPage = 1;
             const searchTerm = query.toLowerCase();
             filteredProducts = filteredProducts.filter((product: Product) =>
                 product.title.toLowerCase().includes(searchTerm) ||
@@ -220,10 +220,11 @@ export const selectFilteredAndSortedProducts = createSelector(
             );
             }
 
+            if (query && query.trim() === '' ) currentPage = memoPage;
+
             const totalCount = filteredProducts.length;
 
-        const currentPage = page || 1;
-        const pageSize = limit || 10;
+        const pageSize = limit;
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const paginatedProducts = filteredProducts.slice(startIndex, endIndex); 

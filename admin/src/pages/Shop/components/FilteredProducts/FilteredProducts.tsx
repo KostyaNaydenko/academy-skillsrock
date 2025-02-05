@@ -6,6 +6,7 @@ import { selectFilteredAndSortedProducts } from "../../../../features/shop";
 import { ContentBox, PaginationBox, SearchInput } from "../../Shop.styles";
 import { FilterPanel } from "../FilterPanel";
 import { useAppSelector } from "../../../../app/store";
+import { PRODUCTS_PER_PAGE } from "../../shop.constants";
 
 export interface PaginationParams {
     page: number;
@@ -14,6 +15,8 @@ export interface PaginationParams {
 
 export const FilteredProducts = () => {
     const theme = useTheme();
+
+    const limit = PRODUCTS_PER_PAGE;
 
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,11 +44,11 @@ export const FilteredProducts = () => {
         maxPrice: maxPrice,
         stockStatus: stockStatus,
         page: currentPage,
-        limit: 6,
+        limit: limit,
       })
     );
   
-    const totalPages = Math.ceil(totalFilteredProducts / 6);
+    const totalPages = Math.ceil(totalFilteredProducts / limit);
   
     return (
       <>
