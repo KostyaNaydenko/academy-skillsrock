@@ -1,12 +1,13 @@
-import { CardContent, Typography, Grid, IconButton, Tooltip, useMediaQuery, useTheme } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { CardContent, Typography, IconButton, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { CartAddingForm, CardAddingForm } from '../../components';
+import { CardAddingForm, AddToCartForm } from '../../components';
 import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../../Shop.styles';
 import { delCard, Product } from "../../../../features/shop";
 import { useToggle } from "../../../../hooks/useToggle";
-import { useDispatch } from "react-redux";
+
 
 interface ProductCardProps {
     cardObject: Product;
@@ -76,7 +77,7 @@ export const ProductCard = ({ cardObject }: ProductCardProps) => {
                     </IconButton>
 
                     <CardAddingForm cardID={cardObject.id} open={editingModeValue as boolean} handleClose={setEditingMode as (()=>void)} />
-                    <CartAddingForm cardID={cardObject.id} open={addingToCartValue as boolean} handleClose={setAddingToCartValue as (()=>void)} />
+                    <AddToCartForm cardID={cardObject.id} open={addingToCartValue as boolean} handleClose={setAddingToCartValue as (()=>void)} />
                 </CardButtonsDiv>
             </CardMain>
         </ShopProductCard>

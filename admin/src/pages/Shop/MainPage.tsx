@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { Content, Header, SideBar } from './components';
+import { Content, Header, SideBar, TemplatePage } from './components';
 import { PRODUCTS_PER_PAGE } from './shop.constants';
 import { useAppSelector } from '../../app/store';
 import { selectFilteredAndSortedProducts } from '../../features/shop';
-import { TemplatePage } from './TemplatePage';
-import { TemplateShopPage } from './Shop.styles';
 
 export const MainPage = () => {
 
@@ -43,7 +41,7 @@ export const MainPage = () => {
 
     return (
     <>
-        <TemplateShopPage 
+        <TemplatePage 
                     header={ <Header search = {searchTerm} setSearch = {setSearchTerm} /> } 
                     content={ <Content  
                                     paginatedProducts={products} 

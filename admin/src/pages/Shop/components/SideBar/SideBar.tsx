@@ -7,7 +7,7 @@ import {
     FormControlLabel,
     Radio,
     Button,
-    Grid
+    Grid,
 } from '@mui/material';
 import { FilterPanelBox } from '../../Shop.styles';
 
@@ -33,7 +33,7 @@ export const SideBar = ({
 }: SideBarProps) => {
 
     return (
-        <Box sx={{maxWidth:'500px', display: 'flex', flexDirection: 'column-reverse'}} >
+        <>
                 <FilterPanelBox>
                     <Typography variant="h6" gutterBottom>
                         Filters
@@ -84,6 +84,6 @@ export const SideBar = ({
                         Subtract filters
                     </Button>
                 </FilterPanelBox>
-        </Box>
+        </>
     );
 };

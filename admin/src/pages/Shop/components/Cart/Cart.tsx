@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Typography, IconButton, Button, Checkbox, Dialog, DialogTitle, DialogActions, useTheme, DialogContent, Box } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteInCart, clearCart, getCart, Product } from "../../../../features/shop";
-import { CartPaper, CloseButtonDiv, ContainerCart } from "../../Shop.styles";
+import { deleteInCart, clearCart, getCart, Product, getTotalPrice, getTotalQuantity } from "../../../../features/shop";
+import { CartPaper, CloseButtonDiv } from "../../Shop.styles";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getTotalPrice, getTotalQuantity } from "../../../../features/shop";
 import { AppState } from "../../../../app/store";
 import CloseIcon from '@mui/icons-material/Close';
 import { RemoveModal } from "../RemoveModal";

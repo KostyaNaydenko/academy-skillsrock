@@ -1,10 +1,11 @@
+import { Dispatch, SetStateAction } from 'react';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { AppBar, Hidden, IconButton, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { IconButton, useMediaQuery, useTheme } from "@mui/material";
 import { CardAddingForm, Cart } from '..';
 import { useToggle } from '../../../../hooks/useToggle';
 import { SearchInput, ShopToolBar } from '../../Shop.styles';
-import { Dispatch, SetStateAction } from 'react';
+
 
 interface HeaderProps {
     search: string;
@@ -21,7 +22,6 @@ export const Header = ( { search, setSearch }: HeaderProps ) => {
 
     return (
         <>
-            <AppBar sx={{position: 'absolute', zIndex: 0, display:'flex', flexGrow:1}}>
                 <ShopToolBar>
 
                     <IconButton onClick={setCardModalValue as (() => void)} >
@@ -41,7 +41,6 @@ export const Header = ( { search, setSearch }: HeaderProps ) => {
                     <Cart isOpen={cartModalValue as boolean} handleClose={setCartModalValue as (() => void)} />
 
                 </ShopToolBar>
-            </AppBar>
         </>
     )
 }

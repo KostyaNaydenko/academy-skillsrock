@@ -1,7 +1,6 @@
-import { Height } from "@mui/icons-material";
-import { Box, Paper, Card, OutlinedInput, Toolbar, useMediaQuery, Container } from "@mui/material";
 import {styled} from '@mui/material/styles';
-import { TemplatePage } from "./TemplatePage";
+import { Box, Paper, Card, OutlinedInput, Toolbar, Container, AppBar } from "@mui/material";
+
 
 export const BoxCard = styled(Box)({
     width: 'auto',
@@ -32,14 +31,13 @@ export const BoxButtons = styled(Box)({
 });
 
 export const CartPaper = styled(Paper)(({theme})=>({
-    //minWidth: '500px',
     margin: '10px',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
     [theme.breakpoints.up('md')]: {
         width: '700px',
-        height: '350px' // Устанавливаем width
+        height: '350px'
     },
 }));
 
@@ -51,6 +49,9 @@ export const ShopProductCard = styled(Card)(({theme})=>({
     padding: '20px',
     height: '75%',
     minHeight: '350px',
+    [theme.breakpoints.down('md')]: {
+        margin: 10,
+    },
 }));
 
 
@@ -85,7 +86,6 @@ export const CardButtonsDiv = styled('div')({
 export const SearchInput = styled(OutlinedInput)(({theme})=>({
     backgroundColor: theme.palette.background.paper,
     marginTop: '6px', 
-    //marginLeft: '80px', 
     marginBottom: '15px', 
     maxHeight: '50px', 
     width: '600px',
@@ -94,14 +94,19 @@ export const SearchInput = styled(OutlinedInput)(({theme})=>({
 export const FilterPanelBox = styled(Box)(({theme})=>({
     backgroundColor: theme.palette.background.paper,
     padding: 25, 
-    marginTop: 2, 
+    margin: 2, 
     marginBottom: 2,  
-    border:'1px solid', 
+    border:'1px solid',
+    [theme.breakpoints.up('md')]: {
+        maxWidth: '350px',
+        minWidth: '350px',
+    },
+    [theme.breakpoints.down('md')]: {
+        marginLeft: 20,
+    },
 }));
 
 export const ShopToolBar = styled(Toolbar)(({theme})=>({
-    //isMd: useMediaQuery(theme.breakpoints.down('md')),
-
     backgroundColor: theme.palette.primary.main, 
     color: theme.palette.secondary.contrastText,
     display:'flex', 
@@ -111,22 +116,47 @@ export const ShopToolBar = styled(Toolbar)(({theme})=>({
 }));
 
 export const PaginationBox = styled(Box)({
-    display: 'flex', 
+    display: 'flex',
+    alignText: 'end', 
     justifyContent: 'center',
     flexGrow: 1, 
-    margin: '20px'
+    margin: '40px'
 });
 
-    export const ContentBox = styled(Box)({
+export const ContentBox = styled(Box)({
     margin: '100px', 
     display: 'flex', 
-    //flexDirection: 'row',
+    flexDirection: 'column',
 });
 
-export const TemplateShopPage = styled(TemplatePage)({
-    //margin: '40px', 
-    display: 'flex', 
+export const TemplatePageMain = styled('main')(({theme})=>({
+    display: 'flex',
     flexDirection: 'row',
+    [theme.breakpoints.down('md')]: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+    } 
+}));
+
+export const TemplatePageContent = styled(Box)({
+    marginTop: '100px', 
+    display: 'flex', 
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+})
+
+export const TemplatePageSidebar = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '100px',
+    marginRight: '20px',
+
+});
+
+export const TemplatePageHeader = styled(AppBar)({
+    position: 'absolute', 
+    display:'flex', 
+    flexGrow:1,
 });
 
 

@@ -13,7 +13,7 @@ interface CartProps {
     handleClose: () => void;
 }
 
-export const CartAddingForm = ({ cardID = null, open, handleClose }: CartProps ) => {
+export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) => {
 
     const dispatch = useDispatch();
     const card = useSelector((state: AppState) => getCard(state, cardID as string));
