@@ -187,53 +187,54 @@ const selectProductsState = (state: AppState, params: any ) => ({
     limit: params.limit,
     });
 
-export const selectFilteredAndSortedProducts = createSelector(
+    export const selectFilteredAndSortedProducts = createSelector(
         [selectProductsState],
         (productState) => {
-
             const { products, query, minPrice, maxPrice, stockStatus, page, limit } = productState;
-
+        
             let filteredProducts = [...products];
-            
-
+        
             const filters = {
                 minPrice: (product: Product) => minPrice ? product.price >= Number(minPrice) : true,
                 maxPrice: (product: Product) => maxPrice ? product.price <= Number(maxPrice) : true,
                 inStock: (product: Product) => stockStatus === 'inStock' ? product.quantity > 0 : true,
                 outOfStock: (product: Product) => stockStatus === 'outOfStock' ? product.quantity == 0 : true,
             };
-
+        
             Object.values(filters).forEach(filterFn => {
                 filteredProducts = filteredProducts.filter(filterFn);
             });
-            
+        
             let currentPage = page || 1;
             let memoPage = page || 1;
-
+        
             if (query && query.trim() !== '') {
-            currentPage = 1;
-            const searchTerm = query.toLowerCase();
-            filteredProducts = filteredProducts.filter((product: Product) =>
+                currentPage = 1;
+                const searchTerm = query.toLowerCase();
+                filteredProducts = filteredProducts.filter((product: Product) =>
                 product.title.toLowerCase().includes(searchTerm) ||
                 product.id.toLowerCase().includes(searchTerm) ||
                 product.description.toLowerCase().includes(searchTerm)
-            );
+                );
             }
-
-            if (query && query.trim() === '' ) currentPage = memoPage;
-
+        
+            if (query && query.trim() === '') currentPage = memoPage;
+        
             const totalCount = filteredProducts.length;
-
-        const pageSize = limit;
-        const startIndex = (currentPage - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        const paginatedProducts = filteredProducts.slice(startIndex, endIndex); 
-        return {
-            products: paginatedProducts,
-            totalCount: totalCount,
-        };
-        }
-    );
+        
+            const pageSize = limit;
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+            const totalPages = Math.ceil(totalCount / limit);
+        
+            return {
+                products: paginatedProducts,
+                totalCount: totalCount,
+                totalPages: totalPages,
+            };
+            }
+        );
 
 export const { addCard, delCard, editCard } = sliceShopCards.actions;
 export const productsReducer = sliceShopCards.reducer;

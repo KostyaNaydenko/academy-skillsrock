@@ -1,22 +1,27 @@
-import { useState } from "react";
-import { Box, Button, Grid, Pagination, useTheme } from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Grid, Pagination, useTheme } from "@mui/material";
 import { Product } from "../../../../features/shop";
 import { ProductCard } from "../ProductCard";
-import { selectFilteredAndSortedProducts } from "../../../../features/shop";
-import { ContentBox, PaginationBox, SearchInput } from "../../Shop.styles";
-import { FilterPanel } from "../FilterPanel";
-import { useAppSelector } from "../../../../app/store";
-import { PRODUCTS_PER_PAGE } from "../../shop.constants";
+import { ContentBox, PaginationBox } from "../../Shop.styles";
 
-export interface PaginationParams {
+/* export interface PaginationParams {
     page: number;
     pageSize: number;
+} */
+
+interface ContentProps {
+  paginatedProducts: Product[];
+  totalFilteredProducts: number;
+  totalPages: number;
+  currentPage: number;
+  setPage: Dispatch<SetStateAction<number>>
 }
 
-export const FilteredProducts = () => {
+export const Content = ( { paginatedProducts, totalFilteredProducts, totalPages, currentPage, setPage }: ContentProps ) => {
+
     const theme = useTheme();
 
-    const limit = PRODUCTS_PER_PAGE;
+  /*  const limit = PRODUCTS_PER_PAGE;
 
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +42,7 @@ export const FilteredProducts = () => {
       setStockStatus(null);
     };
   
-    const { products: paginatedProducts, totalCount: totalFilteredProducts } = useAppSelector(state =>
+    const { products: paginatedProducts, totalCount: totalFilteredProducts, totalPages } = useAppSelector(state =>
       selectFilteredAndSortedProducts(state, {
         query: searchTerm,
         minPrice: minPrice,
@@ -46,25 +51,23 @@ export const FilteredProducts = () => {
         page: currentPage,
         limit: limit,
       })
-    );
-  
-    const totalPages = Math.ceil(totalFilteredProducts / limit);
+    );*/
   
     return (
       <>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', }}>
+        {/*<Box sx={{ display: 'flex', justifyContent: 'space-between', }}>
           <SearchInput
             placeholder="Search product..."
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
             value={searchTerm} />
-        </Box>
+        </Box>*/}
         <ContentBox>
           <Grid container spacing={4} sx={{display: 'flex', justifyContent: 'center'}}>
             {paginatedProducts.map((product: Product) => (
               <Grid item xs={12} sm={12} md={5.4} lg={3.4} key={product.id}> <ProductCard cardObject={product} /> </Grid>
             ))}
           </Grid>
-          <FilterPanel
+          {/* <FilterPanel
             minPrice={minPrice}
             maxPrice={maxPrice}
             stockStatus={stockStatus}
@@ -72,15 +75,16 @@ export const FilteredProducts = () => {
             handleMaxPriceChange={handleMaxPriceChange}
             handleStockStatusChange={handleStockStatusChange}
             handleResetFilters={handleResetFilters}
-          />
+          /> */}
         </ContentBox>
         <PaginationBox>
           {totalFilteredProducts > 0 && totalPages > 1 && (
             <Pagination
               count={totalPages}
               page={currentPage}
-              onChange={(e: React.ChangeEvent<unknown>, page: number) => setCurrentPage(page)} />
-          )} </PaginationBox>
+              onChange={(e: React.ChangeEvent<unknown>, page: number) => setPage(page)} />
+          )} 
+        </PaginationBox>
       </>
     );
   };

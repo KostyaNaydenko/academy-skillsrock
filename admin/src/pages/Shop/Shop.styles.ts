@@ -1,6 +1,7 @@
 import { Height } from "@mui/icons-material";
 import { Box, Paper, Card, OutlinedInput, Toolbar, useMediaQuery, Container } from "@mui/material";
 import {styled} from '@mui/material/styles';
+import { TemplatePage } from "./TemplatePage";
 
 export const BoxCard = styled(Box)({
     width: 'auto',
@@ -84,10 +85,10 @@ export const CardButtonsDiv = styled('div')({
 export const SearchInput = styled(OutlinedInput)(({theme})=>({
     backgroundColor: theme.palette.background.paper,
     marginTop: '6px', 
-    marginLeft: '80px', 
+    //marginLeft: '80px', 
     marginBottom: '15px', 
     maxHeight: '50px', 
-    maxWidth: '300px',
+    width: '600px',
 }));
 
 export const FilterPanelBox = styled(Box)(({theme})=>({
@@ -116,8 +117,14 @@ export const PaginationBox = styled(Box)({
     margin: '20px'
 });
 
-export const ContentBox = styled(Box)({
-    margin: '40px', 
+    export const ContentBox = styled(Box)({
+    margin: '100px', 
+    display: 'flex', 
+    //flexDirection: 'row',
+});
+
+export const TemplateShopPage = styled(TemplatePage)({
+    //margin: '40px', 
     display: 'flex', 
     flexDirection: 'row',
 });

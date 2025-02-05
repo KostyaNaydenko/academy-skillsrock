@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { FilterPanelBox } from '../../Shop.styles';
 
-interface FilterPanelProps {
+interface SideBarProps {
     minPrice: number | null;
     maxPrice: number | null;
     stockStatus: 'inStock' | 'outOfStock' | null;
@@ -22,7 +22,7 @@ interface FilterPanelProps {
 
 }
 
-export const FilterPanel = ({
+export const SideBar = ({
     minPrice,
     maxPrice,
     stockStatus,
@@ -30,10 +30,10 @@ export const FilterPanel = ({
     handleMaxPriceChange,
     handleStockStatusChange,
     handleResetFilters
-}: FilterPanelProps) => {
+}: SideBarProps) => {
 
     return (
-        <Box sx={{maxWidth:'500px'}} >
+        <Box sx={{maxWidth:'500px', display: 'flex', flexDirection: 'column-reverse'}} >
                 <FilterPanelBox>
                     <Typography variant="h6" gutterBottom>
                         Filters
