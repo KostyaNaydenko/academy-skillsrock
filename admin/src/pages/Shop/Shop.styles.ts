@@ -153,8 +153,7 @@ export const TemplatePageSidebar = styled(Box)({
 
 });
 
-export const TemplatePageHeader = styled(AppBar)({
-    position: 'absolute', 
+export const TemplatePageHeader = styled(AppBar)({ 
     display:'flex', 
     flexGrow:1,
 });

@@ -7,8 +7,8 @@ import { AppState } from '../../../../app/store';
 import { BoxButtons } from '../../Shop.styles';
 
 interface CardAddingFormProps {
-    open: boolean;
-    handleClose: () => void;
+    open: boolean | (() => void);
+    handleClose: boolean | (() => void);
     cardID?: string | null;
 }
 

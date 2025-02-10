@@ -76,8 +76,8 @@ export const ProductCard = ({ cardObject }: ProductCardProps) => {
                         <DeleteIcon />
                     </IconButton>
 
-                    <CardAddingForm cardID={cardObject.id} open={editingModeValue as boolean} handleClose={setEditingMode as (()=>void)} />
-                    <AddToCartForm cardID={cardObject.id} open={addingToCartValue as boolean} handleClose={setAddingToCartValue as (()=>void)} />
+                    <CardAddingForm cardID={cardObject.id} open={editingModeValue} handleClose={setEditingMode} />
+                    <AddToCartForm cardID={cardObject.id} open={addingToCartValue} handleClose={setAddingToCartValue} />
                 </CardButtonsDiv>
             </CardMain>
         </ShopProductCard>

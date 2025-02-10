@@ -9,8 +9,8 @@ import { BoxButtons } from '../../Shop.styles';
 
 interface CartProps {
     cardID: string | null;
-    open: boolean;
-    handleClose: () => void;
+    open: boolean | (() => void);
+    handleClose: boolean | (() => void);
 }
 
 export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) => {

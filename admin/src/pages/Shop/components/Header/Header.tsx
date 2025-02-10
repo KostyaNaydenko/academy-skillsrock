@@ -8,20 +8,18 @@ import { SearchInput, ShopToolBar } from '../../Shop.styles';
 
 
 interface HeaderProps {
-    search: string;
-    setSearch: Dispatch<SetStateAction<string>>;
+    formik: any;
 }
 
-export const Header = ( { search, setSearch }: HeaderProps ) => {
+export const Header = ( { formik }: HeaderProps ) => {
     
     const theme = useTheme();
-    const isMd = useMediaQuery(theme.breakpoints.down('md'))
 
     const [cardModalValue, setCardModalValue] = useToggle();
     const [cartModalValue, setCartModalValue] = useToggle();
 
     return (
-        <>
+            <>
                 <ShopToolBar>
 
                     <IconButton onClick={setCardModalValue as (() => void)} >
@@ -30,8 +28,8 @@ export const Header = ( { search, setSearch }: HeaderProps ) => {
 
                     <SearchInput
                         placeholder="Search product..."
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
-                        value={search} />
+                        onChange={(e)=>formik.setFieldValue('searchTerm',e.target.value)}
+                        value={formik.values.searchTerm} />
 
                     <IconButton onClick={setCartModalValue as (() => void)} sx={{color: theme.palette.secondary.contrastText}}>
                         <ShoppingCartIcon />
@@ -41,6 +39,6 @@ export const Header = ( { search, setSearch }: HeaderProps ) => {
                     <Cart isOpen={cartModalValue as boolean} handleClose={setCartModalValue as (() => void)} />
 
                 </ShopToolBar>
-        </>
+            </>
     )
 }

@@ -12,25 +12,12 @@ import {
 import { FilterPanelBox } from '../../Shop.styles';
 
 interface SideBarProps {
-    minPrice: number | null;
-    maxPrice: number | null;
-    stockStatus: 'inStock' | 'outOfStock' | null;
-    handleMinPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleMaxPriceChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleStockStatusChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleResetFilters: () => void;
-
+    formikValues: any;
+    handleChange: any;
+    handleReset: any;
 }
 
-export const SideBar = ({
-    minPrice,
-    maxPrice,
-    stockStatus,
-    handleMinPriceChange,
-    handleMaxPriceChange,
-    handleStockStatusChange,
-    handleResetFilters
-}: SideBarProps) => {
+export const SideBar = ({ formikValues, handleChange, handleReset }: SideBarProps) => {
 
     return (
         <>
@@ -46,8 +33,9 @@ export const SideBar = ({
                                     label="Min price"
                                     type="number"
                                     size="small"
-                                    value={minPrice || ''}
-                                    onChange={handleMinPriceChange}
+                                    name='minPrice'
+                                    value={formikValues.minPrice}
+                                    onChange={handleChange}
                                     sx={{width: '100%'}} />
                             </Grid>
                             <Grid item xs={6}>
@@ -55,8 +43,9 @@ export const SideBar = ({
                                     label="Max price"
                                     type="number"
                                     size="small"
-                                    value={maxPrice || ''}
-                                    onChange={handleMaxPriceChange}
+                                    name='maxPrice'
+                                    value={formikValues.maxPrice}
+                                    onChange={handleChange}
                                     sx={{width: '100%'}}
                                 />
                             </Grid>
@@ -66,9 +55,9 @@ export const SideBar = ({
                         <FormControl component="fieldset">
                             <RadioGroup
                                 aria-label="stock-status"
-                                name="stock-status"
-                                value={stockStatus}
-                                onChange={handleStockStatusChange}>
+                                name="stockStatus"
+                                value={formikValues.stockStatus}
+                                onChange={handleChange}>
                                 <FormControlLabel
                                     value="inStock"
                                     control={<Radio />}
@@ -80,7 +69,7 @@ export const SideBar = ({
                             </RadioGroup>
                         </FormControl>
                     </Box>
-                    <Button variant="contained" color="primary" onClick={handleResetFilters}>
+                    <Button variant="contained" color="primary" onClick={handleReset}>
                         Subtract filters
                     </Button>
                 </FilterPanelBox>

@@ -179,11 +179,11 @@ const sliceShopCards = createSlice({
 
 const selectProductsState = (state: AppState, params: any ) => ({
     products: state.products.items,
-    query: params.query,
+    query: params.searchTerm,
     minPrice: params.minPrice,
     maxPrice: params.maxPrice,
     stockStatus: params.stockStatus,
-    page: params.page,
+    page: params.currentPage,
     limit: params.limit,
     });
 
@@ -226,12 +226,10 @@ const selectProductsState = (state: AppState, params: any ) => ({
             const startIndex = (currentPage - 1) * pageSize;
             const endIndex = startIndex + pageSize;
             const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-            const totalPages = Math.ceil(totalCount / limit);
         
             return {
-                products: paginatedProducts,
-                totalCount: totalCount,
-                totalPages: totalPages,
+                paginatedProducts: paginatedProducts,
+                productsLength: totalCount,
             };
             }
         );
