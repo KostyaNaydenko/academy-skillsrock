@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
-import { AppState, useAppSelector } from "../../../app/store";
+import { AppState } from "../../../app/store";
 import { nanoid } from "nanoid";
 
 export interface Product {
@@ -173,68 +173,58 @@ const sliceShopCards = createSlice({
             },
 
             delCard(state, action) {
-                state.items = state.items.filter((elem) => elem.id !== action.payload);
+                state.items = [...state.items.filter((elem) => elem.id !== action.payload)];
             },
 }});
 
+export const getCards = (state: AppState) => state.products.items;
+export const getCard = (state: AppState, cardID: string) => state.products.items.find( (elem: Product) => elem.id === cardID );
+
 const selectProductsState = (state: AppState, params: any ) => ({
     products: state.products.items,
-    query: params.searchTerm,
-    minPrice: params.minPrice,
-    maxPrice: params.maxPrice,
-    stockStatus: params.stockStatus,
-    page: params.currentPage,
-    limit: params.limit,
+    formik: params.formik,
     });
 
-    export const selectFilteredAndSortedProducts = createSelector(
+export const selectFilteredAndSortedProducts = createSelector(
         [selectProductsState],
         (productState) => {
-            const { products, query, minPrice, maxPrice, stockStatus, page, limit } = productState;
-        
+            let { products, formik } = productState;
+
             let filteredProducts = [...products];
-        
+
             const filters = {
-                minPrice: (product: Product) => minPrice ? product.price >= Number(minPrice) : true,
-                maxPrice: (product: Product) => maxPrice ? product.price <= Number(maxPrice) : true,
-                inStock: (product: Product) => stockStatus === 'inStock' ? product.quantity > 0 : true,
-                outOfStock: (product: Product) => stockStatus === 'outOfStock' ? product.quantity == 0 : true,
+                minPrice: (product: Product) => formik.values.minPrice ? product.price >= Number(formik.values.minPrice) : true,
+                maxPrice: (product: Product) => formik.values.maxPrice ? product.price <= Number(formik.values.maxPrice) : true,
+                inStock: (product: Product) => formik.values.stockStatus === 'inStock' ? product.quantity > 0 : true,
+                outOfStock: (product: Product) => formik.values.stockStatus === 'outOfStock' ? product.quantity == 0 : true,
             };
-        
+
             Object.values(filters).forEach(filterFn => {
                 filteredProducts = filteredProducts.filter(filterFn);
             });
-        
-            let currentPage = page || 1;
-            let memoPage = page || 1;
-        
-            if (query && query.trim() !== '') {
+
+            let currentPage = formik.values.currentPage;
+            let memoPage = formik.values.currentPage;
+
+            if (formik.values.searchTerm.trim() !== '') {
                 currentPage = 1;
-                const searchTerm = query.toLowerCase();
+                const searchTerm = formik.values.searchTerm.toLowerCase();
                 filteredProducts = filteredProducts.filter((product: Product) =>
                 product.title.toLowerCase().includes(searchTerm) ||
                 product.id.toLowerCase().includes(searchTerm) ||
                 product.description.toLowerCase().includes(searchTerm)
                 );
-            }
-        
-            if (query && query.trim() === '') currentPage = memoPage;
-        
-            const totalCount = filteredProducts.length;
-        
-            const pageSize = limit;
-            const startIndex = (currentPage - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-        
-            return {
-                paginatedProducts: paginatedProducts,
-                productsLength: totalCount,
-            };
-            }
+            } else currentPage = memoPage;
+
+            let startIndex: number = (currentPage - 1) * formik.values.limit;
+            let endIndex = startIndex + formik.values.limit;
+            let paginatedProducts =  [...filteredProducts.slice(startIndex, endIndex)];
+
+            if (!paginatedProducts.length && currentPage!==1) formik.setFieldValue('currentPage', currentPage - 1);
+
+            return paginatedProducts;
+        }
         );
 
 export const { addCard, delCard, editCard } = sliceShopCards.actions;
 export const productsReducer = sliceShopCards.reducer;
-export const getCards = (state: AppState) => state.products.items;
-export const getCard = (state: AppState, cardID: string) => state.products.items.find( (elem: Product) => elem.id === cardID );

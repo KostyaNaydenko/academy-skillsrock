@@ -12,31 +12,29 @@ import {
 import { FilterPanelBox } from '../../Shop.styles';
 
 interface SideBarProps {
-    formikValues: any;
-    handleChange: any;
-    handleReset: any;
+    formik: any;
 }
 
-export const SideBar = ({ formikValues, handleChange, handleReset }: SideBarProps) => {
+export const SideBar = ({ formik }: SideBarProps) => {
 
     return (
         <>
-                <FilterPanelBox>
-                    <Typography variant="h6" gutterBottom>
-                        Filters
-                    </Typography>
-                    <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle1">Price</Typography>
-                        <Grid container spacing={2} alignItems="center" >
-                            <Grid item xs={6}>
-                                <TextField
-                                    label="Min price"
-                                    type="number"
-                                    size="small"
-                                    name='minPrice'
-                                    value={formikValues.minPrice}
-                                    onChange={handleChange}
-                                    sx={{width: '100%'}} />
+            <FilterPanelBox>
+                <Typography variant="h6" gutterBottom>
+                    Filters
+                </Typography>
+                <Box sx={{ mb: 2 }}>
+                    <Typography variant="subtitle1">Price</Typography>
+                    <Grid container spacing={2} alignItems="center" >
+                        <Grid item xs={6}>
+                            <TextField
+                                label="Min price"
+                                type="number"
+                                size="small"
+                                name='minPrice'
+                                value={formik.values.minPrice}
+                                onChange={formik.handleChange}
+                                sx={{width: '100%'}} />
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
@@ -44,8 +42,8 @@ export const SideBar = ({ formikValues, handleChange, handleReset }: SideBarProp
                                     type="number"
                                     size="small"
                                     name='maxPrice'
-                                    value={formikValues.maxPrice}
-                                    onChange={handleChange}
+                                    value={formik.values.maxPrice}
+                                    onChange={formik.handleChange}
                                     sx={{width: '100%'}}
                                 />
                             </Grid>
@@ -56,8 +54,8 @@ export const SideBar = ({ formikValues, handleChange, handleReset }: SideBarProp
                             <RadioGroup
                                 aria-label="stock-status"
                                 name="stockStatus"
-                                value={formikValues.stockStatus}
-                                onChange={handleChange}>
+                                value={formik.values.stockStatus}
+                                onChange={formik.handleChange}>
                                 <FormControlLabel
                                     value="inStock"
                                     control={<Radio />}
@@ -69,10 +67,10 @@ export const SideBar = ({ formikValues, handleChange, handleReset }: SideBarProp
                             </RadioGroup>
                         </FormControl>
                     </Box>
-                    <Button variant="contained" color="primary" onClick={handleReset}>
-                        Subtract filters
-                    </Button>
-                </FilterPanelBox>
+                <Button variant="contained" color="primary" onClick={formik.handleReset}>
+                    Subtract filters
+                </Button>
+            </FilterPanelBox>
         </>
     );
 };

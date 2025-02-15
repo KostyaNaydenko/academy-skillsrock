@@ -3,7 +3,7 @@ export * from './Header';
 export * from './ProductCard';
 export * from './AddToCartForm';
 export * from './Cart';
-export * from './ShopContent';
+export * from './ShopGridCards';
 export * from './RemoveModal';
 export * from './SideBar';
 export * from './TemplatePage';

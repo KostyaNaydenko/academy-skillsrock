@@ -20,25 +20,25 @@ export const Header = ( { formik }: HeaderProps ) => {
 
     return (
             <>
-                <ShopToolBar>
+              <ShopToolBar>
 
-                    <IconButton onClick={setCardModalValue as (() => void)} >
-                        <PostAddIcon sx={{color: theme.palette.secondary.contrastText}}/>
-                    </IconButton>
+                <IconButton onClick={setCardModalValue as (() => void)} >
+                    <PostAddIcon sx={{color: theme.palette.secondary.contrastText}}/>
+                </IconButton>
 
-                    <SearchInput
-                        placeholder="Search product..."
-                        onChange={(e)=>formik.setFieldValue('searchTerm',e.target.value)}
-                        value={formik.values.searchTerm} />
+                <SearchInput
+                    placeholder="Search product..."
+                    onChange={(e)=>formik.setFieldValue('searchTerm',e.target.value)}
+                    value={formik.values.searchTerm} />
 
-                    <IconButton onClick={setCartModalValue as (() => void)} sx={{color: theme.palette.secondary.contrastText}}>
-                        <ShoppingCartIcon />
-                    </IconButton >
+                <IconButton onClick={setCartModalValue as (() => void)} sx={{color: theme.palette.secondary.contrastText}}>
+                    <ShoppingCartIcon />
+                </IconButton >
 
-                    <CardAddingForm open={cardModalValue as boolean} handleClose={setCardModalValue as (() => void)} />
-                    <Cart isOpen={cartModalValue as boolean} handleClose={setCartModalValue as (() => void)} />
+                <CardAddingForm open={cardModalValue as boolean} handleClose={setCardModalValue as (() => void)} />
+                <Cart isOpen={cartModalValue as boolean} handleClose={setCartModalValue as (() => void)} />
 
-                </ShopToolBar>
+              </ShopToolBar>
             </>
     )
 }

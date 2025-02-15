@@ -52,6 +52,11 @@ export const ShopProductCard = styled(Card)(({theme})=>({
     [theme.breakpoints.down('md')]: {
         margin: 10,
     },
+
+    [theme.breakpoints.up('lg')]: {
+        minWidth: '250px',
+    },
+
 }));
 
 
@@ -117,9 +122,7 @@ export const ShopToolBar = styled(Toolbar)(({theme})=>({
 
 export const PaginationBox = styled(Box)({
     display: 'flex',
-    alignText: 'end', 
     justifyContent: 'center',
-    flexGrow: 1, 
     margin: '40px'
 });
 
@@ -129,34 +132,49 @@ export const ContentBox = styled(Box)({
     flexDirection: 'column',
 });
 
-export const TemplatePageMain = styled('main')(({theme})=>({
-    display: 'flex',
-    flexDirection: 'row',
-    [theme.breakpoints.down('md')]: {
-        display: 'flex',
-        flexDirection: 'column-reverse',
-    } 
-}));
-
 export const TemplatePageContent = styled(Box)({
-    marginTop: '100px', 
-    display: 'flex', 
+    display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-})
-
-export const TemplatePageSidebar = styled(Box)({
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '100px',
-    marginRight: '20px',
-
+    height: '100vh',
 });
 
 export const TemplatePageHeader = styled(AppBar)({ 
     display:'flex', 
     flexGrow:1,
 });
+
+export const TemplatePageMain = styled('main')(({theme})=>({
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.down('md')]: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+    },
+}));
+
+export const TemplatePageSidebar = styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    marginTop: '100px',
+    marginRight: '20px',
+});
+
+export const TemplatePageGridCards = styled(Box)(({theme})=>({
+    marginTop: '100px',
+    display: 'flex',
+}));
+
+export const TemplatePageFooter = styled(Box)({
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'end',
+    margin: '0px',
+    maxHeight: '100px',
+    minHeight: '100px',
+})
 
 
 

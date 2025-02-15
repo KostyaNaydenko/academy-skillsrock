@@ -1,8 +1,9 @@
-import { Header, SideBar, TemplatePage, ShopContent } from './components';
+import { Header, SideBar, TemplatePage, ShopGridCards } from './components';
 import { PRODUCTS_PER_PAGE } from './shop.constants';
 import { useAppSelector } from '../../app/store';
 import { selectFilteredAndSortedProducts } from '../../features/shop';
 import { useFormik } from 'formik';
+import { ShopPagination } from './components/ShopPagination/ShopPagination';
 
 export const MainPage = () => {
 
@@ -20,17 +21,18 @@ export const MainPage = () => {
         },
     })
 
-    const { paginatedProducts, productsLength } = useAppSelector(state =>
+    const paginatedProducts = useAppSelector(state =>
         selectFilteredAndSortedProducts(state, {
-        ...formik.values,
+        formik,
         })
     );
 
     return (
-    <>
-        <TemplatePage 
-                    header={ <Header formik={formik} /> } 
-                    content={ <ShopContent products={paginatedProducts} length={productsLength} formik={formik} /> }
-                    sidebar= { <SideBar formikValues={formik.values} handleChange={formik.handleChange} handleReset={formik.handleReset}  /> } />
-    </>
+
+    <TemplatePage
+        header= { <Header formik={formik} /> }
+        content={ <ShopGridCards products={paginatedProducts} /> }
+        sidebar={ <SideBar formik={formik} /> }
+        footer= { <ShopPagination formik={formik} /> } />
+
 )}
