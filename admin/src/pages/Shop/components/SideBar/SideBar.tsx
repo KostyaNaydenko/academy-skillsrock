@@ -10,6 +10,7 @@ import {
     Grid,
 } from '@mui/material';
 import { FilterPanelBox } from '../../Shop.styles';
+import { useTranslation } from 'react-i18next';
 
 interface SideBarProps {
     formik: any;
@@ -17,18 +18,20 @@ interface SideBarProps {
 
 export const SideBar = ({ formik }: SideBarProps) => {
 
+    const { t } = useTranslation(['translation']);
+
     return (
         <>
             <FilterPanelBox>
                 <Typography variant="h6" gutterBottom>
-                    Filters
+                    {t("filters")}
                 </Typography>
                 <Box sx={{ mb: 2 }}>
-                    <Typography variant="subtitle1">Price</Typography>
+                    <Typography variant="subtitle1">{t("price")}</Typography>
                     <Grid container spacing={2} alignItems="center" >
                         <Grid item xs={6}>
                             <TextField
-                                label="Min price"
+                                label={t("min")}
                                 type="number"
                                 size="small"
                                 name='minPrice'
@@ -38,7 +41,7 @@ export const SideBar = ({ formik }: SideBarProps) => {
                             </Grid>
                             <Grid item xs={6}>
                                 <TextField
-                                    label="Max price"
+                                    label={t("max")}
                                     type="number"
                                     size="small"
                                     name='maxPrice'
@@ -59,16 +62,16 @@ export const SideBar = ({ formik }: SideBarProps) => {
                                 <FormControlLabel
                                     value="inStock"
                                     control={<Radio />}
-                                    label="available"/>
+                                    label={t("available")}/>
                                 <FormControlLabel
                                     value="outOfStock"
                                     control={<Radio />}
-                                    label="Not available"/>
+                                    label={t("notAvailable")}/>
                             </RadioGroup>
                         </FormControl>
                     </Box>
                 <Button variant="contained" color="primary" onClick={formik.handleReset}>
-                    Subtract filters
+                    {t('subtract')}
                 </Button>
             </FilterPanelBox>
         </>

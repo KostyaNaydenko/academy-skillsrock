@@ -7,7 +7,7 @@ import { CardAddingForm, AddToCartForm } from '../../components';
 import { CardButtonsDiv, CardMain, DataDiv, ShopProductCard } from '../../Shop.styles';
 import { delCard, Product } from "../../../../features/shop";
 import { useToggle } from "../../../../hooks/useToggle";
-
+import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
     cardObject: Product;
@@ -15,13 +15,15 @@ interface ProductCardProps {
 
 export const ProductCard = ({ cardObject }: ProductCardProps) => {
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    const { t, i18n } = useTranslation(['translation']);
 
     const dispatch = useDispatch();
 
     const [editingModeValue, setEditingMode] = useToggle();
     const [addingToCartValue, setAddingToCartValue] = useToggle();
+
+    console.log("Current language:", i18n.language);
 
     return (
         
@@ -36,12 +38,12 @@ export const ProductCard = ({ cardObject }: ProductCardProps) => {
                     </Typography>
                     </Tooltip>
 
-                    <Tooltip title={cardObject.description}>
+                    <Tooltip title={t(`${cardObject.title.replace(/ /g, '_')}.description`)}>
                     <Typography paragraph
                                 overflow = 'hidden'
                                 textOverflow = 'ellipsis'
                                 whiteSpace = 'nowrap'>
-                        {cardObject.description}
+                        {t(`${cardObject.description}`)}
                     </Typography>
                     </Tooltip>
                 </CardContent>

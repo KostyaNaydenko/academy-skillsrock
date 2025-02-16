@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addCard, editCard, getCard } from '../../../../features/shop';
 import { AppState } from '../../../../app/store';
 import { BoxButtons } from '../../Shop.styles';
+import { useTranslation } from 'react-i18next';
 
 interface CardAddingFormProps {
-    open: boolean | (() => void);
-    handleClose: boolean | (() => void);
+    open: boolean;
+    handleClose: any;
     cardID?: string | null;
 }
 
@@ -23,6 +24,8 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
 
     const dispatch = useDispatch();
     const card = useSelector((state: AppState) => getCard(state, cardID as string));
+
+    const { t } = useTranslation(['translation']);
 
     const validationSchema = Yup.object({
         title: Yup.string()
@@ -42,7 +45,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
     const formik = useFormik<FormValues>({
         initialValues: {
             title: card?.title || '',
-            description: card?.description || '',
+            description: card? t(`${card.description}`): '',
             quantity: card?.quantity || 0,
             price: card?.price || 0,
         },
@@ -56,7 +59,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
     return (
 
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>{card ? 'Editing mode' : 'Adding product mode'}</DialogTitle>
+            <DialogTitle>{card ? t('editingProduct') : t('addingProduct')}</DialogTitle>
         <DialogContent>
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2}>
@@ -66,7 +69,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             fullWidth
                             id="title"
                             title="title"
-                            label="Title"
+                            label={t("Title")}
                             variant="outlined"
                             {...formik.getFieldProps('title')}
                             error={formik.touched.title && Boolean(formik.errors.title)}
@@ -78,7 +81,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             fullWidth
                             id="description"
                             title="description"
-                            label="Description"
+                            label={t("Description")}
                             variant="outlined"
                             multiline
                             rows={4}
@@ -92,7 +95,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             fullWidth
                             id="quantity"
                             title="quantity"
-                            label="Quantity"
+                            label={t("Quantity")}
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('quantity')}
@@ -105,7 +108,7 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                             fullWidth
                             id="price"
                             title="price"
-                            label="Price"
+                            label={t("Price")}
                             variant="outlined"
                             type="number"
                             {...formik.getFieldProps('price')}
@@ -117,10 +120,10 @@ export const CardAddingForm = ({  open, handleClose, cardID = null, }: CardAddin
                         <DialogActions>
                             <BoxButtons >
                                 <Button variant='contained' color='secondary' onClick={handleClose} >
-                                    close
+                                    {t('close')}
                                 </Button>
                                 <Button type="submit" variant="contained" color="primary" >
-                                    save
+                                    {t('save')}
                                 </Button>
                             </BoxButtons>
                         </DialogActions>

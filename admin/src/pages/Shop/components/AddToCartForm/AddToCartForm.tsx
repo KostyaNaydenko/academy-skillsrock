@@ -5,15 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCard, addToCart } from '../../../../features/shop';
 import { AppState } from '../../../../app/store';
 import { BoxButtons } from '../../Shop.styles';
+import { useTranslation } from 'react-i18next';
 
 
 interface CartProps {
     cardID: string | null;
-    open: boolean | (() => void);
-    handleClose: boolean | (() => void);
+    open: boolean;
+    handleClose: any;
 }
 
 export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) => {
+
+    const { t } = useTranslation(['translation']);
 
     const dispatch = useDispatch();
     const card = useSelector((state: AppState) => getCard(state, cardID as string));
@@ -36,7 +39,7 @@ export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) 
     return (
 
         <Dialog open={open} onClose={handleClose} >
-            <DialogTitle sx={{marginTop:'10px'}} >Set quantity</DialogTitle>
+            <DialogTitle sx={{marginTop:'10px'}} >{t('setQuantity')}</DialogTitle>
             <DialogContent>
                 <form onSubmit={formik.handleSubmit}>
                     <Grid container spacing={2}>
@@ -46,7 +49,7 @@ export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) 
                                 fullWidth
                                 id="quantity"
                                 title="quantity"
-                                label="Quantity"
+                                label={t("Quantity")}
                                 variant="outlined"
                                 type="number"
                                 {...formik.getFieldProps('quantity')}
@@ -58,10 +61,10 @@ export const AddToCartForm = ({ cardID = null, open, handleClose }: CartProps ) 
                             <DialogActions>
                                 <BoxButtons >
                                     <Button variant='contained' color='secondary' onClick={handleClose} >
-                                        close
+                                        {t("close")}
                                     </Button>
                                     <Button type="submit" variant="contained" color="primary">
-                                        add
+                                        {t("add")}
                                     </Button>
                                 </BoxButtons>
                             </DialogActions>
