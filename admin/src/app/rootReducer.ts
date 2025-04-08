@@ -7,8 +7,11 @@ import permissionReducer from '../features/permissions/permissionSlice';
 import permissionsReducer from '../features/permissions/permissionsSlice';
 import userReducer from '../features/users/userSlice';
 import usersReducer from '../features/users/usersSlice';
+import { productsReducer, cartReducer } from '../features/shop';
 
 export const rootReducer = combineReducers({
+  products: productsReducer,
+  cart: cartReducer,
   auth: authReducer,
   dashboard: dashboardReducer,
   courses: coursesReducer,

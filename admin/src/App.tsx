@@ -1,3 +1,5 @@
+import './i18n';
+
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';

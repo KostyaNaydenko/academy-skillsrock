@@ -9,6 +9,7 @@ import { NotFound } from '../pages/NotFound';
 import { Permission } from '../pages/permissions/Permission';
 import { Permissions } from '../pages/permissions/Permissions';
 import { Users } from '../pages/Users';
+import { MainPage } from '../pages/Shop/MainPage.tsx';
 
 export const routes = [
   {
@@ -18,6 +19,10 @@ export const routes = [
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path: '/shop',
+    element: <MainPage />,
   },
   {
     path: '/dashboard/*',
